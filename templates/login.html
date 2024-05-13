@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniAgenda Login</title>
+    <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
+
+    <style>
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #3955d1;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      header {
+        background-color: #023059;
+        color: #fff;
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        width: 98.4%;
+        position: absolute;
+        top: 0;
+      }
+      .imagelogo {
+        height: 30px;
+      }
+      .login-container {
+        background-color: #fff;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        width: 300px;
+      }
+      .login-container h1 {
+        font-size: 24px;
+        color: #333;
+        margin-bottom: 20px;
+      }
+      .icon-calendar {
+        display: block;
+        margin: 0 auto 20px;
+        width: 90px;
+        height: 90px;
+        background-image: url('/static/Group.png');
+        background-size: cover;
+      }
+      .form-group {
+        margin-bottom: 20px;
+      }
+      label {
+        display: block;
+        margin-bottom: 8px;
+      }
+      input[type="email"],
+      input[type="password"] {
+        width: calc(100% - 20px);
+        padding: 10px;
+        border: 2px solid #ddd;
+        border-radius: 4px;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+      }
+      .btn-entrar {
+        width: calc(100%);
+        padding: 12px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        text-align: center;
+        justify-content: center;
+      }
+      .btn-entrar:hover {
+        background-color: #218838;
+      }
+      .link-cadastrar {
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+        color: #007bff;
+        text-decoration: none;
+        font-size: 16px;
+      }
+      .link-cadastrar:hover {
+        text-decoration: underline;
+      }
+      footer {
+        text-align: center;
+        position: absolute;
+        bottom: 10px;
+        width: 100%;
+      }
+      footer p {
+        color: #aaa;
+      }
+      .erro{
+        background-color: red;
+        font: 50px;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="barra">
+        <img class='imagelogo' src="/static/Group1.png" alt="">
+      </div>
+      <div>
+        <p class="erro"></p>
+      </div>
+    </header>
+    <div class="login-container">
+      <div class="icon-calendar"></div>
+      <h1 style="text-align: center;">UniAgenda</h1>
+      <form action="/logar" method="post">
+        <div class="form-group">
+          <label for="username">Email</label>
+          <input type="email" id="email" name="email">
+        </div>
+        <div class="form-group">
+          <label for="password">Senha</label>
+          <input type="password" id="password" name="senha">
+        </div>
+        <button type = 'submit' class="btn-entrar" >Entrar</button>
+        <a href="{{url_for('cadastro')}}" class="link-cadastrar">Cadastrar-se?</a>
+      </form>
+    </div>
+    <footer>
+      <p>UniFecaf</p>
+    </footer>
+
+    <script>
+      let err = window.localStorage.getItem('erro');
+      document.getElementsByClassName('erro') = err;
+    </script>
+  </body>
+</html>

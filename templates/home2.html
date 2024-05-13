@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UniAgenda - Seus Agendamentos</title>
+  <link rel="stylesheet"    href="/static/css/home2.css">
+  <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
+</head>
+<body>
+  <header>
+    <img style="height: 50px;" src="/static/Group1.png" alt="logo">
+    <!-- <h1>UniAgenda</h1> -->
+    <a class="logout-btn" style="text-decoration: none;" href="/logout">Sair</a>
+    
+  </header>
+
+  <main>
+    <section class="calendar">
+      <div class="container">
+          <!-- <h2>Seus Agendamentos</h2> border: 1px solid white; --> 
+          <h2 style=" padding: 1%; font: 40px arial;font-weight: bold;color: white;">Dias disponiveis:</h2>
+
+        <div class="calendar-nav">
+          <button class="prev-month">Anterior</button>
+          <span onclick="enviar()" class="current-month">Março/2024</span>
+          <button class="next-month">Próximo</button>
+        </div>
+
+        <div class="calendar-grid">
+          
+        </div>
+      </div>
+    </section>
+
+    <section class="user-info">
+      <div class="container">
+        <h2>{{session}}</h2>
+        <h4>Seus agendamentos:</h3>
+        <div class="agendamentos">
+          <div class="agendamento">
+            <h3>Lab. de Informatica 03</h3>
+            <div class="details">
+              <span class="date">27/03/2024</span>
+              <span class="room">G5</span>
+              <button class="cancel-btn">Cancelar</button>
+            </div>
+          </div>
+          <div class="agendamento">
+            <h3>Lab. de Informatica 03</h3>
+            <div class="details">
+              <span class="date">03/04/2024</span>
+              <span class="room">G5</span>
+              <button class="cancel-btn">Cancelar</button>
+            </div>
+          </div>
+          <div class="agendamento">
+            <h3>Lab. de Informatica 03</h3>
+            <div class="details">
+              <span class="date">10/04/2024</span>
+              <span class="room">G5</span>
+              <button class="cancel-btn">Cancelar</button>
+            </div>
+          </div>
+        </div>
+
+        <button class="new-appointment-btn">Novo Agendamento</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="/static/js/home2.js"></script>
+</body>
+</html>

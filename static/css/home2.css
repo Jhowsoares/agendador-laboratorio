@@ -1,0 +1,171 @@
+/* Estilo geral */
+body {
+    font-family: sans-serif;
+    margin: 0;
+    background-color: #3955d1;
+    color: #ffffff;
+    font-weight: bold;
+    transition: 1s;
+}
+  
+  /* Cabeçalho */
+header {
+    background-color: #023059;
+    color: #fff;
+    /* padding: 15px; */
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    position: absolute;
+    top: 0;
+}
+
+main{
+    margin-top: 30px;
+}
+
+  
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: center;
+  border-radius: 2%;
+  padding: .5%;
+  transition: 1s;
+}
+.container:hover{
+    box-shadow: 0px 3px 5px#333;
+    padding: 1%;
+}
+  
+h1 {
+    font-size: 24px;
+}
+  
+.logout-btn {
+    background-color: #ff4d4d;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+  
+  /* Calendário */
+.calendar {
+  background-color: #5585bb;
+    padding: 20px;
+}
+  
+h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+span {
+  color: #333;
+}
+  
+.calendar-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+  
+.prev-month,
+.next-month {
+    background-color: #eee;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+}
+
+.prev-month:hover,
+.next-month:hover {
+    background-color: #e4e1e1;
+}
+
+
+.current-month {
+    color: white;
+    font-size: 25px;
+}
+  
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 10px;
+}
+  
+.day-cell {
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    transition: .5s;
+}
+
+.day-cell:hover {
+    background-color: #0f2b4e;
+}
+  
+.day-number {
+    font-size: 16px;
+}
+  
+.event {
+    display: block;
+    font-weight: bold;
+    color: #333;
+}
+  
+  /* Informações do Usuário */
+.user-info {
+  background-color: #5585bb;
+    padding: 20px;
+}
+  
+.agendamentos {
+    margin-bottom: 20px;
+}
+  
+  .agendamento {
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    padding: 10px;
+  }
+  
+  .agendamento h3 {
+    font-size: 18px;
+    margin-bottom: 5px;
+  }
+  
+  .details {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .date,
+  .room {
+    margin-right: 10px;
+  }
+  
+  .cancel-btn {
+    background-color: #ff4d4d;
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  /* Botão de Novo Agendamento */
+  .new-appointment-btn {
+    display: block;
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
