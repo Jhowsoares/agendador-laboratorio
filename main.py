@@ -2,6 +2,7 @@ from flask import Flask, url_for, render_template, redirect, request, session
 from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
+from forms import FormLogin, FormCriarConta
 
 app = Flask(__name__)
 
@@ -39,7 +40,8 @@ def homePage(url_for=url_for):
 
 @app.route('/login')
 def login(url_for=url_for):
-    return render_template('login.html'), 200
+    form_login = FormLogin()
+    return render_template('login.html', form_login=form_login), 200
 
 
 @app.route('/logar', methods=['POST'])
@@ -68,7 +70,8 @@ def logar():
 
 @app.route('/cadastro')
 def cadastro(url_for=url_for):
-    return render_template('cadastro.html'), 200
+    formcriarconta = FormCriarConta()
+    return render_template('cadastro.html', formcriarconta=formcriarconta), 200
 
 
 @app.route('/cadastrar', methods=['POST'])
