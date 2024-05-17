@@ -38,9 +38,12 @@
                 <label for="confirm-senha">Confirmar Senha:</label>
                 <input type="password" id="confirm-senha" name="confirm-senha" required>
             </div>
+            <br>
             <button type="submit" class="btn-criar-conta">Criar conta</button>
         </form>
-        <button class="btn-voltar">Voltar</button>
+        <a href="{{url_for('login')}}">
+            <button class="btn-voltar">Voltar</button>
+        </a>
     </div>
 </body>
 </html>
