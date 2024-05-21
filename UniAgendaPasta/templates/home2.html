@@ -15,28 +15,15 @@
     
   </header>
 
-  <main>
-    <section class="calendar">
-      <div class="container">
-          <!-- <h2>Seus Agendamentos</h2> border: 1px solid white; --> 
-          <h2 style=" padding: 1%; font: 40px arial;font-weight: bold;color: white;">Dias disponiveis:</h2>
-
-        <div class="calendar-nav">
-          <button class="prev-month">Anterior</button>
-          <span onclick="enviar()" class="current-month">Março/2024</span>
-          <button class="next-month">Próximo</button>
-        </div>
-
-        <div class="calendar-grid">
-          
-        </div>
-      </div>
-    </section>
-
+  <main style="display: flex; justify-content: flex-start;">
+   
     <section class="user-info">
+      <div class="user-box">
+          <h2>{{session.capitalize()}}</h2>
+          <h4>Seus agendamentos:</h4>
+      </div>
       <div class="container">
-        <h2>{{session.capitalize()}}</h2>
-        <h4>Seus agendamentos:</h3>
+
         <div class="agendamentos">
           <div class="agendamento">
             <h3>Lab. de Informatica 03</h3>
@@ -67,6 +54,59 @@
         <button class="new-appointment-btn">Novo Agendamento</button>
       </div>
     </section>
+
+    <section class="calendar">
+      <div class="container">
+          <!-- <h2>Seus Agendamentos</h2> border: 1px solid white; --> 
+          <h2 style=" padding: 1%; font: 40px arial;font-weight: bold;color: black;">Dias disponiveis:</h2>
+
+        <div class="calendar-nav">
+          <button class="prev-month">Anterior</button>
+          <span onclick="enviar()" class="current-month">Março/2024</span>
+          <button class="next-month">Próximo</button>
+        </div>
+
+        <div class="calendar-grid">
+                    
+        </div>
+      </div>
+
+      <div class="Form">
+
+        <form action="/submit-appointment" method="post" class="appointment-form">
+          <h2>Novo Agendamento</h2>
+          <div class="form-group">
+              <label for="start-time">Horário de início:</label>
+              <input type="time" id="start-time" name="start_time" required>
+          </div>
+          <div class="form-group">
+              <label for="end-time">Horário de fim:</label>
+              <input type="time" id="end-time" name="end_time" required>
+          </div>
+          <div class="form-group">
+              <label for="building">Prédio:</label>
+              <select id="building" name="building" required>
+                  <option value="">Selecione um prédio</option>
+                  <!-- Prédios -->
+              </select>
+          </div>
+          <div class="form-group">
+              <label for="type">Tipo:</label>
+              <input type="radio" id="sala" name="type" value="sala">
+              <label for="sala">Sala</label>
+              <input type="radio" id="laboratorio" name="type" value="laboratorio">
+              <label for="laboratorio">Laboratório</label>
+          </div>
+          <div class="form-group">
+              <label for="location">Local:</label>
+              <select id="location" name="location" required>
+                  <option value="">Selecione o local</option>
+                  <!--  locais -->
+              </select>
+          </div>
+          <button type="submit" class="submit-btn">Agendar</button>
+        </form>
+
   </main>
 
   <script src="/static/js/home2.js"></script>

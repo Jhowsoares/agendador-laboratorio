@@ -2,8 +2,11 @@
 body {
     font-family: sans-serif;
     margin: 0;
-    background-color: #3955d1;
-    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #efeff0;
+    color: black;
     font-weight: bold;
     transition: 1s;
 }
@@ -17,24 +20,29 @@ header {
     justify-content: space-between;
     width: 100%;
     position: absolute;
+    display: flex;
+    align-items: flex-start;
     top: 0;
 }
 
 main{
-    margin-top: 30px;
+  flex: 1;
+  margin-top: 30px;
 }
 
   
 .container {
+  background-color: #fff;
   max-width: 1000px;
   margin: 0 auto;
   text-align: center;
   border-radius: 2%;
+  margin-top: 20px;
   padding: .5%;
   transition: 1s;
 }
 .container:hover{
-    box-shadow: 0px 3px 5px#333;
+    box-shadow: 0px 3px 4px gray;
     padding: 1%;
 }
   
@@ -50,10 +58,13 @@ h1 {
     cursor: pointer;
 }
   
+ /* Informações para novo Agendamento */
+
   /* Calendário */
 .calendar {
-  background-color: #5585bb;
-    padding: 20px;
+  background-color: #efeff0;
+  padding: 20px;
+  flex: 2;
 }
   
 h2 {
@@ -87,7 +98,7 @@ span {
 
 
 .current-month {
-    color: white;
+    color: black;
     font-size: 25px;
 }
   
@@ -118,13 +129,59 @@ span {
     font-weight: bold;
     color: #333;
 }
-  
-  /* Informações do Usuário */
-.user-info {
-  background-color: #5585bb;
-    padding: 20px;
+
+
+/* Formulário*/
+
+.appointment-form {
+  background-color: #fff;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 5px;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.input,
+.select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+}
+
+.submit-btn {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
 }
   
+
+
+  /* Informações do Usuário */
+.user-info {
+  background-color: #1BA657;
+  padding: 20px;
+  flex: 1;
+  margin-right: 20px;
+}
+
+.user-box {
+  padding: 20px;
+  text-align: center;
+
+}
+ 
 .agendamentos {
     margin-bottom: 20px;
 }
@@ -168,4 +225,5 @@ span {
     cursor: pointer;
     margin-top: 20px;
   }
+
   
