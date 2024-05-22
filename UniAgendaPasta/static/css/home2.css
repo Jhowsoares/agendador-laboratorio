@@ -10,82 +10,98 @@ body {
     font-weight: bold;
     transition: 1s;
 }
-  
-  /* Cabeçalho */
+
+/* Cabeçalho */
 header {
     background-color: #023059;
     color: #fff;
-    /* padding: 15px; */
     display: flex;
     justify-content: space-between;
     width: 100%;
     position: absolute;
-    display: flex;
-    align-items: flex-start;
     top: 0;
+    align-items: center; /* Centraliza verticalmente os itens */
 }
 
-main{
-  flex: 1;
-  margin-top: 30px;
+
+main {
+    flex: 1;
+    margin-top: 30px;
 }
 
-  
+.container1 {
+    background-color: #1BA657;
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+    border-radius: 2%;
+    margin-top: 20px;
+    padding: .5%;
+    transition: 1s;
+}
+
 .container {
-  background-color: #fff;
-  max-width: 1000px;
-  margin: 0 auto;
-  text-align: center;
-  border-radius: 2%;
-  margin-top: 20px;
-  padding: .5%;
-  transition: 1s;
+    background-color: #fff;
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+    border-radius: 50px;
+    margin-top: 20px;
+    padding: 30px 95px;
+    transition: 1s;
 }
-.container:hover{
+
+.container:hover {
     box-shadow: 0px 3px 4px gray;
     padding: 1%;
 }
-  
+
 h1 {
     font-size: 24px;
 }
-  
+
 .logout-btn {
-    background-color: #ff4d4d;
     color: #fff;
     padding: 10px 20px;
     border: none;
     cursor: pointer;
 }
-  
- /* Informações para novo Agendamento */
 
-  /* Calendário */
-.calendar {
-  background-color: #efeff0;
-  padding: 20px;
-  flex: 2;
+.logout-btn:hover {
+    color: #a7acb0;
 }
-  
+/* Informações para novo Agendamento */
+
+/* Calendário */
+.calendar {
+    background-color: #efeff0;
+    padding: 20px;
+    flex: 2;
+}
+
 h2 {
     font-size: 20px;
     margin-bottom: 20px;
 }
 
 span {
-  color: #333;
+    color: #333;
 }
-  
+
 .calendar-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
 }
-  
+
 .prev-month,
 .next-month {
-    background-color: #eee;
+    font-weight: 900;
+    font-size: 20px;
+    color: #F2F2F2;
+    background-color: #032859;
+    border-radius: 50px;
     padding: 10px 15px;
     border: none;
     cursor: pointer;
@@ -93,21 +109,20 @@ span {
 
 .prev-month:hover,
 .next-month:hover {
-    background-color: #e4e1e1;
+    background-color: #084378;
 }
-
 
 .current-month {
     color: black;
     font-size: 25px;
 }
-  
+
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     gap: 10px;
 }
-  
+
 .day-cell {
     text-align: center;
     padding: 10px;
@@ -117,113 +132,138 @@ span {
 }
 
 .day-cell:hover {
-    background-color: #0f2b4e;
+    background-color: #F2F2F2;
 }
-  
+
 .day-number {
     font-size: 16px;
 }
-  
+
 .event {
     display: block;
     font-weight: bold;
     color: #333;
 }
 
-
-/* Formulário*/
-
+/* Formulário */
 .appointment-form {
-  background-color: #fff;
-  padding: 20px;
-  margin-top: 20px;
-  border-radius: 5px;
+    background-color: #fff;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 50px;
 }
 
 .form-group {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 .label {
-  display: block;
-  margin-bottom: 5px;
+    display: block;
+    margin-bottom: 5px;
 }
 
 .input,
 .select {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ddd;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
 }
 
 .submit-btn {
-  background-color: #007bff;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-}
-  
-
-
-  /* Informações do Usuário */
-.user-info {
-  background-color: #1BA657;
-  padding: 20px;
-  flex: 1;
-  margin-right: 20px;
-}
-
-.user-box {
-  padding: 20px;
-  text-align: center;
-
-}
- 
-.agendamentos {
-    margin-bottom: 20px;
-}
-  
-  .agendamento {
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    padding: 10px;
-  }
-  
-  .agendamento h3 {
-    font-size: 18px;
-    margin-bottom: 5px;
-  }
-  
-  .details {
-    font-size: 14px;
-    color: #666;
-  }
-  
-  .date,
-  .room {
-    margin-right: 10px;
-  }
-  
-  .cancel-btn {
-    background-color: #ff4d4d;
-    color: #fff;
-    padding: 5px 10px;
-    border: none;
-    cursor: pointer;
-  }
-  
-  /* Botão de Novo Agendamento */
-  .new-appointment-btn {
-    display: block;
     background-color: #007bff;
     color: #fff;
     padding: 10px 20px;
     border: none;
     cursor: pointer;
-    margin-top: 20px;
-  }
+    width: 100%;
+}
 
-  
+/* Informações do Usuário */
+.user-info {
+    background-color: #1BA657;
+    padding: 20px;
+    flex: 1;
+    margin-right: 20px;
+}
+
+.username {
+    font-size: 40px;
+    margin: -50px 20px 50px 20px;
+    color: #fff;
+}
+
+.agenda {
+    font-size: 18px;
+    color: #fff;
+}
+
+.user-box {
+    padding: 20px;
+    text-align: center;
+}
+
+.agendamentos {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    background-color: #1BA657;
+    border: none;
+}
+
+.agendamento {
+    display: flex;
+    align-items: center;
+    border: none;
+    padding: 10px;
+    justify-content: space-between;
+    background-color: #fff;
+    margin-bottom: 10px;
+    border-radius: 50px;
+}
+
+.agendamento h3 {
+    font-size: 18px;
+    margin: 0;
+}
+
+.details {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Espaço entre elementos */
+}
+
+.room {
+    margin-right: 20px;
+}
+
+.date {
+    margin-right: 20px;
+}
+
+.cancel-btn {
+    background-color: #032859;
+    color: #fff;
+    padding: 15px 25px; /* Ajustando o padding para um tamanho consistente */
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+.cancel-btn:hover {
+    background-color: #084378;
+    margin: 2px;
+    transition: 0.3s;
+}
+
+/* Botão de Novo Agendamento */
+.new-appointment-btn {
+    background-color: #032859;
+    color: #fff;
+    padding: 20px 40px;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 26px;
+    border-radius: 50px;
+}

@@ -19,15 +19,17 @@
    
     <section class="user-info">
       <div class="user-box">
-          <h2>{{session.capitalize()}}</h2>
-          <h4>Seus agendamentos:</h4>
+          <img src="/static/userfotopadrao.png" alt="">
+          <h2 class="username">{{session.capitalize()}}</h2>
+          <h4 class="agenda">Sua Agenda</h4>
       </div>
-      <div class="container">
+      <div class="container1">
 
         <div class="agendamentos">
           <div class="agendamento">
             <h3>Lab. de Informatica 03</h3>
             <div class="details">
+                <span class="hora">19h às 22h</span>
               <span class="date">27/03/2024</span>
               <span class="room">G5</span>
               <button class="cancel-btn">Cancelar</button>
@@ -36,6 +38,7 @@
           <div class="agendamento">
             <h3>Lab. de Informatica 03</h3>
             <div class="details">
+                <span class="hora">19h às 22h</span>
               <span class="date">03/04/2024</span>
               <span class="room">G5</span>
               <button class="cancel-btn">Cancelar</button>
@@ -44,6 +47,8 @@
           <div class="agendamento">
             <h3>Lab. de Informatica 03</h3>
             <div class="details">
+
+                <span class="hora">19h às 22h</span>
               <span class="date">10/04/2024</span>
               <span class="room">G5</span>
               <button class="cancel-btn">Cancelar</button>
@@ -61,9 +66,9 @@
           <h2 style=" padding: 1%; font: 40px arial;font-weight: bold;color: black;">Dias disponiveis:</h2>
 
         <div class="calendar-nav">
-          <button class="prev-month">Anterior</button>
+          <button class="prev-month">	&#60;</button>
           <span onclick="enviar()" class="current-month">Março/2024</span>
-          <button class="next-month">Próximo</button>
+          <button class="next-month">&#62;</button>
         </div>
 
         <div class="calendar-grid">
