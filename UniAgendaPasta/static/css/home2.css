@@ -151,15 +151,22 @@ span {
     padding: 20px;
     margin-top: 20px;
     border-radius: 50px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s;
+}
+
+.appointment-form:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .form-group {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .label {
     display: block;
     margin-bottom: 5px;
+    font-weight: bold;
 }
 
 .input,
@@ -168,6 +175,14 @@ span {
     padding: 10px;
     margin-bottom: 10px;
     border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: border-color 0.3s;
+}
+
+.input:focus,
+.select:focus {
+    border-color: #007bff;
+    outline: none;
 }
 
 .submit-btn {
@@ -177,7 +192,56 @@ span {
     border: none;
     cursor: pointer;
     width: 100%;
+    border-radius: 4px;
+    transition: background-color 0.3s;
 }
+
+.submit-btn:hover {
+    background-color: #0056b3;
+}
+
+.title {
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+}
+
+.time-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+.time-field {
+    flex: 1;
+    margin-right: 10px;
+}
+
+/* Último campo de tempo não deve ter margem à direita */
+.time-field:last-child {
+    margin-right: 0;
+}
+
+/* Estilização das caixas de seleção */
+.select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 4px;
+    position: relative;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23007bff" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px 16px;
+}
+
+/* Estilização do foco das caixas de seleção */
+.select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
 
 /* Informações do Usuário */
 .user-info {

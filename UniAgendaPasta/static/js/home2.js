@@ -76,6 +76,14 @@ for(let i = diav;i<=range;i++){
     
 }
 
-
+document.addEventListener('DOMContentLoaded', () => {
+    const newAppointmentBtn = document.querySelector('.new-appointment-btn');
+    const form = document.querySelector('.Form');
+  
+    newAppointmentBtn.addEventListener('click', () => {
+      form.classList.toggle('hidden');
+    });
+  });
 
 // console.log(calendario.item(0))
+

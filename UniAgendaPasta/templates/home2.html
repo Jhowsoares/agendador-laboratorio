@@ -6,6 +6,11 @@
   <title>UniAgenda - Seus Agendamentos</title>
   <link rel="stylesheet"    href="/static/css/home2.css">
   <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
+  <style>
+    .hidden{
+      display: none;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -76,18 +81,20 @@
         </div>
       </div>
 
-      <div class="Form">
+      <div class="Form hidden">
 
         <form action="/submit-appointment" method="post" class="appointment-form">
-          <h2>Novo Agendamento</h2>
-          <div class="form-group">
-              <label for="start-time">Horário de início:</label>
-              <input type="time" id="start-time" name="start_time" required>
-          </div>
-          <div class="form-group">
-              <label for="end-time">Horário de fim:</label>
-              <input type="time" id="end-time" name="end_time" required>
-          </div>
+          <h2 class="title">Novo Agendamento</h2>
+          <div class="form-group time-group">
+            <div class="time-field">
+                <label for="start-time">Horário de início:</label>
+                <input type="time" id="start-time" name="start_time" required>
+            </div>
+            <div class="time-field">
+                <label for="end-time">Horário de fim:</label>
+                <input type="time" id="end-time" name="end_time" required>
+            </div>
+        </div>
           <div class="form-group">
               <label for="building">Prédio:</label>
               <select id="building" name="building" required>
@@ -111,7 +118,8 @@
           </div>
           <button type="submit" class="submit-btn">Agendar</button>
         </form>
-
+      </div>
+    </section>
   </main>
 
   <script src="/static/js/home2.js"></script>
