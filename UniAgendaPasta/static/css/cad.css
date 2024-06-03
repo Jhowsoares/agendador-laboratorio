@@ -8,16 +8,19 @@ body, html {
 header {
     background-color: #023059;
     color: #fff;
-    padding: 15px;
     display: flex;
     justify-content: space-between;
     width: 100%;
     position: absolute;
     top: 0;
+    align-items: center;
+    padding-top:10px;
+    padding-bottom: 10px;
 }
 
 .imagelogo {
-    height: 30px;
+    height: 50px;
+    padding-left: 10px;
 }
 
 .container {

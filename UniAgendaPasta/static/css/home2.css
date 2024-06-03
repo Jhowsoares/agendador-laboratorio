@@ -20,7 +20,9 @@ header {
     width: 100%;
     position: absolute;
     top: 0;
-    align-items: center; /* Centraliza verticalmente os itens */
+    align-items: center;
+    padding-top:10px;
+    padding-bottom: 10px;
 }
 
 
@@ -46,14 +48,9 @@ main {
     margin: 0 auto;
     text-align: center;
     border-radius: 50px;
-    margin-top: 20px;
+    margin-top: 50px;
     padding: 30px 95px;
     transition: 1s;
-}
-
-.container:hover {
-    box-shadow: 0px 3px 4px gray;
-    padding: 1%;
 }
 
 h1 {
@@ -65,6 +62,7 @@ h1 {
     padding: 10px 20px;
     border: none;
     cursor: pointer;
+    padding-right: 20px;
 }
 
 .logout-btn:hover {
@@ -145,103 +143,89 @@ span {
     color: #333;
 }
 
-/* Formulário */
+/* Estilos do formulário */
 .appointment-form {
     background-color: #fff;
-    padding: 20px;
-    margin-top: 20px;
-    border-radius: 50px;
+    padding: 30px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s;
+    max-width: 700px;
+    margin: 20px auto;
 }
 
-.appointment-form:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+.appointment-form:hover,
+ .container:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
-.form-group {
-    margin-bottom: 20px;
-}
-
-.label {
+.appointment-form label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
     font-weight: bold;
+    font-size: 14px;
+    color: #333;
+    text-align: center;
 }
 
-.input,
-.select {
+.appointment-form input,
+.appointment-form select {
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
     border: 1px solid #ddd;
-    border-radius: 4px;
-    transition: border-color 0.3s;
+    border-radius: 8px;
+    font-size: 14px;
+    text-align: center;
+    border-radius: 50px;
 }
 
-.input:focus,
-.select:focus {
-    border-color: #007bff;
-    outline: none;
+.time-group{
+    display: flex;
+    padding-right: 20px;
+    flex-direction: row;
+    gap: 65px; /* Adiciona espaçamento entre os campos */
+}
+
+.building-location-group {
+    display: flex;
+    gap: 45px; /* Adiciona espaçamento entre os campos */
+}
+
+.time-field,
+.building-field,
+.location-field {
+    flex: 1;
 }
 
 .submit-btn {
-    background-color: #007bff;
+    background-color: #032859;
     color: #fff;
-    padding: 10px 20px;
+    padding: 20px; /* Reduz a largura do botão */
     border: none;
     cursor: pointer;
-    width: 100%;
-    border-radius: 4px;
+    width: 20%; /* Define a largura do botão */
+    border-radius: 50px;
+    font-size: 16px;
     transition: background-color 0.3s;
+    margin: 20px auto; /* Centraliza o botão */
+    display: block;
 }
 
-.submit-btn:hover {
-    background-color: #0056b3;
+.submit-btn:hover,
+.new-appointment-btn:hover {
+    background-color: #084378;
 }
 
 .title {
     text-align: center;
     font-family: 'Arial', sans-serif;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
 }
-
-.time-group {
-    display: flex;
-    justify-content: space-between;
-}
-
-.time-field {
-    flex: 1;
-    margin-right: 10px;
-}
-
-/* Último campo de tempo não deve ter margem à direita */
-.time-field:last-child {
-    margin-right: 0;
-}
-
-/* Estilização das caixas de seleção */
-.select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    padding: 10px;
-    border-radius: 4px;
-    position: relative;
-    background-image: url('data:image/svg+xml;utf8,<svg fill="%23007bff" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    background-size: 16px 16px;
-}
-
-/* Estilização do foco das caixas de seleção */
-.select:focus {
-    border-color: #007bff;
-    outline: none;
-}
-
 
 /* Informações do Usuário */
 .user-info {
@@ -331,3 +315,4 @@ span {
     font-size: 26px;
     border-radius: 50px;
 }
+

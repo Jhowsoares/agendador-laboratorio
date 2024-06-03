@@ -14,14 +14,14 @@
 </head>
 <body>
   <header>
-    <img style="height: 50px;" src="/static/Group1.png" alt="logo">
+    <img style="height: 50px; padding-left: 10px;" src="/static/Group1.png" alt="logo">
     <!-- <h1>UniAgenda</h1> -->
     <a class="logout-btn" style="text-decoration: none;" href="/logout">Sair</a>
-    
+
   </header>
 
   <main style="display: flex; justify-content: flex-start;">
-   
+
     <section class="user-info">
       <div class="user-box">
           <img src="/static/userfotopadrao.png" alt="">
@@ -67,7 +67,7 @@
 
     <section class="calendar">
       <div class="container">
-          <!-- <h2>Seus Agendamentos</h2> border: 1px solid white; --> 
+          <!-- <h2>Seus Agendamentos</h2> border: 1px solid white; -->
           <h2 style=" padding: 1%; font: 40px arial;font-weight: bold;color: black;">Dias disponiveis:</h2>
 
         <div class="calendar-nav">
@@ -77,15 +77,14 @@
         </div>
 
         <div class="calendar-grid">
-                    
+
         </div>
       </div>
 
-      <div class="Form hidden">
-
-        <form action="/submit-appointment" method="post" class="appointment-form">
-          <h2 class="title">Novo Agendamento</h2>
-          <div class="form-group time-group">
+    <div class="Form hidden">
+    <form action="/submit-appointment" method="post" class="appointment-form">
+        <h2 class="title">Novo Agendamento</h2>
+        <div class="form-group time-group">
             <div class="time-field">
                 <label for="start-time">Horário de início:</label>
                 <input type="time" id="start-time" name="start_time" required>
@@ -95,31 +94,28 @@
                 <input type="time" id="end-time" name="end_time" required>
             </div>
         </div>
-          <div class="form-group">
-              <label for="building">Prédio:</label>
-              <select id="building" name="building" required>
-                  <option value="">Selecione um prédio</option>
-                  <!-- Prédios -->
-              </select>
-          </div>
-          <div class="form-group">
-              <label for="type">Tipo:</label>
-              <input type="radio" id="sala" name="type" value="sala">
-              <label for="sala">Sala</label>
-              <input type="radio" id="laboratorio" name="type" value="laboratorio">
-              <label for="laboratorio">Laboratório</label>
-          </div>
-          <div class="form-group">
-              <label for="location">Local:</label>
-              <select id="location" name="location" required>
-                  <option value="">Selecione o local</option>
-                  <!--  locais -->
-              </select>
-          </div>
-          <button type="submit" class="submit-btn">Agendar</button>
-        </form>
-      </div>
-    </section>
+        <div class="form-group building-location-group">
+            <div class="building-field">
+                <label for="building">Prédio:</label>
+                <select id="building" name="building" required>
+                    <option value="">Selecione um prédio</option>
+                    <!-- Prédios -->
+                </select>
+            </div>
+            <div class="location-field">
+                <label for="location">Laboratório / Sala:</label>
+                <select id="location" name="location" required>
+                    <option value="">Selecione o local</option>
+                    <!-- Locais -->
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="submit-btn">Agendar</button>
+    </form>
+</div>
+
+</div>
+
   </main>
 
   <script src="/static/js/home2.js"></script>
