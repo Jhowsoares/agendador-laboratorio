@@ -98,15 +98,17 @@
             <div class="building-field">
                 <label for="building">Prédio:</label>
                 <select id="building" name="building" required>
-                    <option value="">Selecione um prédio</option>
-                    <!-- Prédios -->
+                    {% for predio in predios %}
+                  <option value="{{ predio }}">{{ predio }}</option>
+                {% endfor %}
                 </select>
             </div>
             <div class="location-field">
                 <label for="location">Laboratório / Sala:</label>
                 <select id="location" name="location" required>
-                    <option value="">Selecione o local</option>
-                    <!-- Locais -->
+                    {% for lab in labs %}
+                  <option value="{{ lab }}">{{ lab }}</option>
+                {% endfor %}
                 </select>
             </div>
         </div>

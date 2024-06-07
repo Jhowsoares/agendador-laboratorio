@@ -203,7 +203,7 @@ span {
 .submit-btn {
     background-color: #032859;
     color: #fff;
-    padding: 20px; /* Reduz a largura do botão */
+    padding: 10px; /* Reduz a largura do botão */
     border: none;
     cursor: pointer;
     width: 20%; /* Define a largura do botão */
@@ -262,7 +262,6 @@ span {
 .agendamento {
     display: flex;
     align-items: center;
-    border: none;
     padding: 10px;
     justify-content: space-between;
     background-color: #fff;

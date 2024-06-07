@@ -1,6 +1,6 @@
 from flask import render_template, flash, redirect, url_for, request, session
 from UniAgendaPasta import app, bcrypt
-from UniAgendaPasta.models import User
+from UniAgendaPasta.models import User, predioslista, labslista
 from UniAgendaPasta import db
 from UniAgendaPasta.forms import FormLogin, FormCriarConta
 
@@ -8,10 +8,10 @@ from UniAgendaPasta.forms import FormLogin, FormCriarConta
 def homePage(url_for=url_for):
     if 'email' in session:
         try:
-            return render_template('home2.html', session=session['nome'])
+            return render_template('home2.html', session=session['nome'], labs=labslista, predios=predioslista)
         except Exception as e:
             print(e)
-            return render_template('home2.html', session=session['nome'], url_for=url_for)
+            return render_template('home2.html', session=session['nome'], url_for=url_for, labs=labslista, predios=predioslista)
     else:
         return redirect('/login')
 
