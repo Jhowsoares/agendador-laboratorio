@@ -17,15 +17,24 @@ class User(db.Model):
     def checar_Senha(self, senha):
         return bcrypt.check_password_hash(self.senha, senha)
 
-
 predioslista = ['Sede', 'G5', 'Centro']
 labslista = ['Sala 1', 'Sala 2', 'Sala 3', 'Sala 4', 'Sala 5', 'Lab 1', 'Lab 2', 'Lab 3', 'Lab 4', 'Lab 5']
 
+
 class Agendamento(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    data= db.Column(db.DateTime, nullable=False)
+    data = db.Column(db.Date, nullable=False)
     hora_inicio = db.Column(db.DateTime, nullable=False)
     hora_fim = db.Column(db.DateTime, nullable=False)
     predio = db.Column(db.String(100), nullable=False)
     laboratorio = db.Column(db.String(100), nullable=False)
     id_usuario = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+    def __init__(self, data, hora_inicio, hora_fim, predio, laboratorio, id_usuario) -> None:
+        self.data = data
+        self.hora_inicio = hora_inicio
+        self.hora_fim = hora_fim
+        self.predio = predio
+        self.laboratorio = laboratorio
+        self.id_usuario = id_usuario
+

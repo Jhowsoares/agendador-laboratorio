@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>UniAgenda - Seus Agendamentos</title>
-  <link rel="stylesheet"    href="/static/css/home2.css">
+  <link rel="stylesheet" href="/static/css/home2.css">
   <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
   <style>
-    .hidden{
+    .hidden {
       display: none;
     }
   </style>
@@ -15,111 +15,88 @@
 <body>
   <header>
     <img style="height: 50px; padding-left: 10px;" src="/static/Group1.png" alt="logo">
-    <!-- <h1>UniAgenda</h1> -->
     <a class="logout-btn" style="text-decoration: none;" href="/logout">Sair</a>
-
   </header>
-
   <main style="display: flex; justify-content: flex-start;">
-
     <section class="user-info">
       <div class="user-box">
-          <img src="/static/userfotopadrao.png" alt="">
-          <h2 class="username">{{session.capitalize()}}</h2>
-          <h4 class="agenda">Sua Agenda</h4>
+        <img src="/static/userfotopadrao.png" alt="fotousuario">
+        <h2 class="username">{{ session.capitalize() }}</h2>
+        <h4 class="agenda">Sua Agenda</h4>
       </div>
       <div class="container1">
-
-        <div class="agendamentos">
-          <div class="agendamento">
-            <h3>Lab. de Informatica 03</h3>
-            <div class="details">
-                <span class="hora">19h às 22h</span>
-              <span class="date">27/03/2024</span>
-              <span class="room">G5</span>
-              <button class="cancel-btn">Cancelar</button>
-            </div>
+        {% if agendamentos %}
+          <div class="agendamentos">
+            {% for agendamento in agendamentos %}
+              <div class="agendamento">
+                <h3>{{ agendamento.laboratorio }}</h3>
+                <div class="details">
+                    <span class="hora">{{ agendamento.hora_inicio.strftime('%H:%M às') }}</span>
+                    <span class="hora">{{ agendamento.hora_fim.strftime('%H:%M') }}</span>
+                    <span class="date">{{ agendamento.data.strftime('%d/%m/%Y') }}</span>
+                    <span class="room">{{ agendamento.predio }}</span>
+                    <button class="cancel-btn">Cancelar</button>
+                </div>
+              </div>
+            {% endfor %}
           </div>
-          <div class="agendamento">
-            <h3>Lab. de Informatica 03</h3>
-            <div class="details">
-                <span class="hora">19h às 22h</span>
-              <span class="date">03/04/2024</span>
-              <span class="room">G5</span>
-              <button class="cancel-btn">Cancelar</button>
-            </div>
-          </div>
-          <div class="agendamento">
-            <h3>Lab. de Informatica 03</h3>
-            <div class="details">
-
-                <span class="hora">19h às 22h</span>
-              <span class="date">10/04/2024</span>
-              <span class="room">G5</span>
-              <button class="cancel-btn">Cancelar</button>
-            </div>
-          </div>
-        </div>
-
+        {% else %}
+          <p>Agenda vazia</p>
+        {% endif %}
         <button class="new-appointment-btn">Novo Agendamento</button>
       </div>
     </section>
-
     <section class="calendar">
       <div class="container">
-          <!-- <h2>Seus Agendamentos</h2> border: 1px solid white; -->
-          <h2 style=" padding: 1%; font: 40px arial;font-weight: bold;color: black;">Dias disponiveis:</h2>
-
+        <h2 style="padding: 1%; font: 40px arial;font-weight: bold;color: black;">Dias disponiveis:</h2>
         <div class="calendar-nav">
-          <button class="prev-month">	&#60;</button>
+          <button class="prev-month">&#60;</button>
           <span onclick="enviar()" class="current-month">Março/2024</span>
           <button class="next-month">&#62;</button>
         </div>
-
         <div class="calendar-grid">
-
         </div>
       </div>
-
-    <div class="Form hidden">
-    <form action="/submit-appointment" method="post" class="appointment-form">
-        <h2 class="title">Novo Agendamento</h2>
-        <div class="form-group time-group">
+      <div class="Form hidden">
+        <form action="/agendar" method="post" class="appointment-form">
+          <h2 class="title">Novo Agendamento</h2>
+          <div class="form-group time-group">
             <div class="time-field">
-                <label for="start-time">Horário de início:</label>
-                <input type="time" id="start-time" name="start_time" required>
+              <label for="start-time">Horário de início:</label>
+              <input type="time" id="start-time" name="start_time" required>
             </div>
             <div class="time-field">
-                <label for="end-time">Horário de fim:</label>
-                <input type="time" id="end-time" name="end_time" required>
+              <label for="end-time">Horário de fim:</label>
+              <input type="time" id="end-time" name="end_time" required>
             </div>
-        </div>
-        <div class="form-group building-location-group">
+            <div class="time-field">
+              <label for="date">Data:</label>
+              <input type="date" id="date" name="date" required>
+            </div>
+          </div>
+          <div class="form-group building-location-group">
             <div class="building-field">
-                <label for="building">Prédio:</label>
-                <select id="building" name="building" required>
-                    {% for predio in predios %}
+              <label for="building">Prédio:</label>
+              <select id="building" name="building" required>
+                {% for predio in predios %}
                   <option value="{{ predio }}">{{ predio }}</option>
                 {% endfor %}
-                </select>
+              </select>
             </div>
             <div class="location-field">
-                <label for="location">Laboratório / Sala:</label>
-                <select id="location" name="location" required>
-                    {% for lab in labs %}
+              <label for="location">Laboratório / Sala:</label>
+              <select id="location" name="location" required>
+                {% for lab in labs %}
                   <option value="{{ lab }}">{{ lab }}</option>
                 {% endfor %}
-                </select>
+              </select>
             </div>
-        </div>
-        <button type="submit" class="submit-btn">Agendar</button>
-    </form>
-</div>
-
-</div>
-
+          </div>
+          <button type="submit" class="submit-btn">Agendar</button>
+        </form>
+      </div>
+    </section>
   </main>
-
   <script src="/static/js/home2.js"></script>
 </body>
 </html>
