@@ -73,13 +73,13 @@ for(let i = diav;i<=range;i++){
     // console.log(celula)
     celula.appendChild(dia)
     calendario[0].appendChild(celula)
-    
+
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     const newAppointmentBtn = document.querySelector('.new-appointment-btn');
     const form = document.querySelector('.Form');
-  
+
     newAppointmentBtn.addEventListener('click', () => {
       form.classList.toggle('hidden');
     });

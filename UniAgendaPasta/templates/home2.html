@@ -10,6 +10,66 @@
     .hidden {
       display: none;
     }
+    .blur-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      backdrop-filter: blur(5px);
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      display: none;
+    }
+    .popout {
+      background-color: #F2F2F2;
+      border: 3px solid black;
+      border-radius: 50px;
+      padding: 50px;
+      text-align: center;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 25px;
+      display: none;
+      z-index: 1000;
+    }
+    .close-btn {
+      position: absolute;
+      font-size: 15px;
+      top: 16px;
+      right: 26px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: #1BA657;
+      color: #F2F2F2;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .buttons {
+      margin-top: 20px;
+    }
+    .btn-sim,
+    .btn-nao {
+      cursor: pointer;
+      width: 100px;
+      padding: 10px;
+      background-color: #1BA657;
+      font-size: 20px;
+      border-radius: 50px;
+      margin: 10px;
+    }
+    .btn-sim:hover,
+    .btn-nao:hover {
+      padding: 12px;
+    }
+    .close-btn:hover {
+      padding: 1px;
+    }
   </style>
 </head>
 <body>
@@ -17,7 +77,7 @@
     <img style="height: 50px; padding-left: 10px;" src="/static/Group1.png" alt="logo">
     <a class="logout-btn" style="text-decoration: none;" href="/logout">Sair</a>
   </header>
-  <main style="display: flex; justify-content: flex-start;">
+  <main class="main-content" style="display: flex; justify-content: flex-start;">
     <section class="user-info">
       <div class="user-box">
         <img src="/static/userfotopadrao.png" alt="fotousuario">
@@ -31,11 +91,13 @@
               <div class="agendamento">
                 <h3>{{ agendamento.laboratorio }}</h3>
                 <div class="details">
-                    <span class="hora">{{ agendamento.hora_inicio.strftime('%H:%M às') }}</span>
-                    <span class="hora">{{ agendamento.hora_fim.strftime('%H:%M') }}</span>
-                    <span class="date">{{ agendamento.data.strftime('%d/%m/%Y') }}</span>
-                    <span class="room">{{ agendamento.predio }}</span>
-                    <button class="cancel-btn">Cancelar</button>
+                  <span class="hora">{{ agendamento.hora_inicio.strftime('%H:%M às') }}</span>
+                  <span class="hora">{{ agendamento.hora_fim.strftime('%H:%M') }}</span>
+                  <span class="date">{{ agendamento.data.strftime('%d/%m/%Y') }}</span>
+                  <span class="room">{{ agendamento.predio }}</span>
+                  <form id="form-{{ agendamento.id }}" method="post" action="{{ url_for('excluir_agendamento', agendamento_id=agendamento.id) }}">
+                    <button type="button" class="cancel-btn" onclick="confirmarExclusao({{ agendamento.id }})">Cancelar</button>
+                  </form>
                 </div>
               </div>
             {% endfor %}
@@ -54,8 +116,7 @@
           <span onclick="enviar()" class="current-month">Março/2024</span>
           <button class="next-month">&#62;</button>
         </div>
-        <div class="calendar-grid">
-        </div>
+        <div class="calendar-grid"></div>
       </div>
       <div class="Form hidden">
         <form action="/agendar" method="post" class="appointment-form">
@@ -97,6 +158,36 @@
       </div>
     </section>
   </main>
+  <div class="blur-overlay"></div>
+  <div class="popout">
+    <span class="close-btn" onclick="fecharPopout()">X</span>
+    <p>Gostaria de cancelar o agendamento?</p>
+    <div class="buttons">
+      <button class="btn-sim" onclick="confirmarSim()">Sim!</button>
+      <button class="btn-nao" onclick="fecharPopout()">Não!</button>
+    </div>
+  </div>
+  <script>
+    let agendamentoIdParaExcluir = null;
+
+    function confirmarExclusao(agendamentoId) {
+      agendamentoIdParaExcluir = agendamentoId;
+      document.querySelector('.popout').style.display = 'block';
+      document.querySelector('.blur-overlay').style.display = 'block';
+    }
+
+    function fecharPopout() {
+      agendamentoIdParaExcluir = null;
+      document.querySelector('.popout').style.display = 'none';
+      document.querySelector('.blur-overlay').style.display = 'none';
+    }
+
+    function confirmarSim() {
+      if (agendamentoIdParaExcluir) {
+        document.getElementById(`form-${agendamentoIdParaExcluir}`).submit();
+      }
+    }
+  </script>
   <script src="/static/js/home2.js"></script>
 </body>
 </html>

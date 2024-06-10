@@ -1,9 +1,10 @@
-from flask import render_template, flash, redirect, url_for, request, session
+from flask import render_template, flash, redirect, url_for, request, session, abort
 from UniAgendaPasta import app, bcrypt
 from UniAgendaPasta.models import User, predioslista, labslista, Agendamento
 from UniAgendaPasta import db
 from UniAgendaPasta.forms import FormLogin, FormCriarConta
 from datetime import datetime
+from flask_login import current_user, login_required
 
 def buscar_agendamentos_usuario(usuario_id):
     try:
@@ -12,6 +13,7 @@ def buscar_agendamentos_usuario(usuario_id):
     except Exception as e:
         print(e)
         return []
+
 @app.route('/')
 def homePage():
     if 'email' in session:
@@ -37,13 +39,8 @@ def agendar():
 
     try:
         email_usuario = session['email']
-        print(f"Email do usuário na sessão: {email_usuario}")  # Linha de debug
-
         user = User.query.filter_by(email=email_usuario).first()
-        if user:
-            print(f"Usuário encontrado: {user.nome}, {user.email}")  # Linha de debug
         if not user:
-            print("Usuário não encontrado")  # Linha de debug
             return 'Usuário não encontrado', 404
 
         data_str = request.form.get('date')
@@ -52,7 +49,6 @@ def agendar():
         predio = request.form.get('building')
         laboratorio = request.form.get('location')
 
-        # Converta strings para objetos datetime
         data = datetime.strptime(data_str, '%Y-%m-%d')
         hora_inicio = datetime.strptime(f"{data_str} {hora_inicio_str}", '%Y-%m-%d %H:%M')
         hora_fim = datetime.strptime(f"{data_str} {hora_fim_str}", '%Y-%m-%d %H:%M')
@@ -61,16 +57,35 @@ def agendar():
 
         db.session.add(novo_agendamento)
         db.session.commit()
+        flash('Agendamento realizado com sucesso!')
     except Exception as e:
-        print(f"Erro ao agendar: {e}")  # Linha de debug
+        print(f"Erro ao agendar: {e}")
         return f'Erro ao agendar: {e}'
 
-    return redirect('/')
+    return redirect('/'), flash('Agendamento realizado com sucesso!')
+
+
+@app.route('/excluir/<int:agendamento_id>', methods=['POST'])
+def excluir_agendamento(agendamento_id):
+    if 'email' not in session:
+        return redirect(url_for('login'))
+
+    agendamento = Agendamento.query.get_or_404(agendamento_id)
+    email_usuario = session['email']
+    user = User.query.filter_by(email=email_usuario).first()
+
+    if agendamento.id_usuario == user.id:
+        db.session.delete(agendamento)
+        db.session.commit()
+        flash('Agendamento excluído com sucesso', 'alert-danger')
+        return redirect(url_for('homePage'))
+    else:
+        abort(403)
+
 
 @app.route('/login')
 def login(url_for=url_for):
     return render_template('login.html'), 200
-
 
 @app.route('/logar', methods=['POST'])
 def logar():
@@ -82,20 +97,16 @@ def logar():
             raise ValueError("Senha não deve estar vazia")
 
         user = User.query.filter_by(email=email).first()
-        if user:
-            print(f"Usuário encontrado: {user.nome}, {user.email}")  # Linha de debug
         if user and user.checar_Senha(senha):
             session['nome'] = user.nome
             session['email'] = user.email
             session['senha'] = user.senha
             return redirect('/')
         else:
-            print("Usuário não encontrado ou senha incorreta")  # Linha de debug
             return redirect('/login')
     except Exception as e:
         print(e)
         return render_template('login_redirect.html')
-
 
 @app.route('/cadastro')
 def cadastro(url_for=url_for):
@@ -114,22 +125,6 @@ def cadastrar(url_for=url_for):
         return f'Erro ao criar a conta. Email pode já ter sido utilizado antes: {e}'
     return render_template('home_redirect.html')
 
-@app.route('/registros', methods=['POST'])
-def registros():
-    return
-
-@app.route('/enviar', methods=['GET', 'POST'])
-def enviar():
-    if request.method == 'GET':
-        return redirect('/')
-
-    lab = request.json['lab']
-    data = request.json['data']
-
-    print(request.json)
-    print(data)
-    return 'não deixo pala'
-
 @app.route('/logout')
 def logout():
     session.clear()
@@ -137,4 +132,4 @@ def logout():
 
 @app.errorhandler(404)
 def pagina_nao_existente(e):
-    return render_template('404.html')
+    return render_template('404.html'), 404
