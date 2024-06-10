@@ -6,6 +6,22 @@ from UniAgendaPasta.forms import FormLogin, FormCriarConta
 from datetime import datetime
 from flask_login import current_user, login_required
 
+# Lista auxiliar para mapear nomes dos meses para números
+meses_para_numero = {
+    'Janeiro': '01',
+    'Fevereiro': '02',
+    'Março': '03',
+    'Abril': '04',
+    'Maio': '05',
+    'Junho': '06',
+    'Julho': '07',
+    'Agosto': '08',
+    'Setembro': '09',
+    'Outubro': '10',
+    'Novembro': '11',
+    'Dezembro': '12'
+}
+
 def buscar_agendamentos_usuario(usuario_id):
     try:
         agendamentos = Agendamento.query.filter_by(id_usuario=usuario_id).all()
@@ -32,6 +48,7 @@ def homePage():
     else:
         return redirect('/login')
 
+
 @app.route('/agendar', methods=['POST'])
 def agendar():
     if 'email' not in session:
@@ -44,26 +61,45 @@ def agendar():
             return 'Usuário não encontrado', 404
 
         data_str = request.form.get('date')
-        hora_inicio_str = request.form.get('start_time')
-        hora_fim_str = request.form.get('end_time')
+        hora_inicio_str = request.form.get('startTime')
+        hora_fim_str = request.form.get('endTime')
         predio = request.form.get('building')
         laboratorio = request.form.get('location')
 
-        data = datetime.strptime(data_str, '%Y-%m-%d')
-        hora_inicio = datetime.strptime(f"{data_str} {hora_inicio_str}", '%Y-%m-%d %H:%M')
-        hora_fim = datetime.strptime(f"{data_str} {hora_fim_str}", '%Y-%m-%d %H:%M')
+        # Separar a data fornecida em dia, mês e ano
+        partes_data = data_str.split(' de ')
+        dia = partes_data[0]
+        mes = partes_data[1]
+        ano = partes_data[2]
 
-        novo_agendamento = Agendamento(data=data, hora_inicio=hora_inicio, hora_fim=hora_fim, predio=predio, laboratorio=laboratorio, id_usuario=user.id)
+        # Converter o mês para número usando a lista auxiliar
+        mes_numero = meses_para_numero[mes]
 
+        # Formatando a data como 'ano-mês-dia'
+        data_formatada = f'{ano}-{mes_numero}-{dia}'
+
+        # Converter a data formatada para um objeto datetime
+        data = datetime.strptime(data_formatada, '%Y-%m-%d')
+
+        # Construir os objetos datetime para hora de início e fim
+        hora_inicio = datetime.strptime(hora_inicio_str, '%H:%M').time()
+        hora_fim = datetime.strptime(hora_fim_str, '%H:%M').time()
+
+        # Criar o objeto Agendamento com os dados convertidos
+        novo_agendamento = Agendamento(data=data, hora_inicio=datetime.strptime(hora_inicio_str, '%H:%M'),
+                                       hora_fim=datetime.strptime(hora_fim_str, '%H:%M'), predio=predio,
+                                       laboratorio=laboratorio, id_usuario=user.id)
+
+        # Adicionar o novo agendamento ao banco de dados
         db.session.add(novo_agendamento)
         db.session.commit()
-        flash('Agendamento realizado com sucesso!')
+
+        flash('Agendamento realizado com sucesso!', 'success')
     except Exception as e:
         print(f"Erro ao agendar: {e}")
-        return f'Erro ao agendar: {e}'
+        flash('Erro ao agendar. Por favor, verifique os dados inseridos.', 'error')
 
-    return redirect('/'), flash('Agendamento realizado com sucesso!')
-
+    return redirect('/')
 
 @app.route('/excluir/<int:agendamento_id>', methods=['POST'])
 def excluir_agendamento(agendamento_id):
@@ -77,7 +113,7 @@ def excluir_agendamento(agendamento_id):
     if agendamento.id_usuario == user.id:
         db.session.delete(agendamento)
         db.session.commit()
-        flash('Agendamento excluído com sucesso', 'alert-danger')
+        flash('Agendamento excluído com sucesso', 'success')
         return redirect(url_for('homePage'))
     else:
         abort(403)

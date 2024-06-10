@@ -67,6 +67,7 @@
     .btn-nao:hover {
       transform: translateY(2px);
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
     .btn-sim:active,
     .btn-nao:active {
       transform: translateY(0);
@@ -74,6 +75,37 @@
     }
     .close-btn:hover {
       padding: 1px;
+    }
+    .calendar-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+    }
+    .day-cell {
+      text-align: center;
+      padding: 10px;
+      border-radius: 50px;
+      transition: background-color 0.3s;
+    }
+    .day-cell:hover {
+      background-color: #f0f0f0;
+      cursor: pointer;
+    }
+    .day-cell.prev-month, .day-cell.next-month {
+      display: none;
+    }
+    .legend {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 10px;
     }
   </style>
 </head>
@@ -96,8 +128,7 @@
               <div class="agendamento">
                 <h3>{{ agendamento.laboratorio }}</h3>
                 <div class="details">
-                  <span class="hora">{{ agendamento.hora_inicio.strftime('%H:%M às') }}</span>
-                  <span class="hora">{{ agendamento.hora_fim.strftime('%H:%M') }}</span>
+                  <span class="hora">{{ agendamento.hora_inicio.strftime('%H:%M às') }} {{ agendamento.hora_fim.strftime('%H:%M') }}</span>
                   <span class="date">{{ agendamento.data.strftime('%d/%m/%Y') }}</span>
                   <span class="room">{{ agendamento.predio }}</span>
                   <form id="form-{{ agendamento.id }}" method="post" action="{{ url_for('excluir_agendamento', agendamento_id=agendamento.id) }}">
@@ -110,47 +141,69 @@
         {% else %}
           <p>Agenda vazia</p>
         {% endif %}
-        <button class="new-appointment-btn">Novo Agendamento</button>
+        <button type="button" class="new-appointment-btn" onclick="openAppointmentForm()">Novo Agendamento</button>
       </div>
     </section>
     <section class="calendar">
       <div class="container">
-        <h2 style="padding: 1%; font: 40px arial;font-weight: bold;color: black;">Dias disponiveis:</h2>
+        <h2>Dias disponiveis:</h2>
         <div class="calendar-nav">
-          <button class="prev-month">&#60;</button>
-          <span onclick="enviar()" class="current-month">Março/2024</span>
-          <button class="next-month">&#62;</button>
+          <button class="prev-month" onclick="changeMonth(-1)">&#10094;</button>
+          <div class="current-month" id="currentMonth">Junho 2024</div>
+          <button class="next-month" onclick="changeMonth(1)">&#10095;</button>
+        </div>
+        <div class="legend">
+          <div>D</div>
+          <div>S</div>
+          <div>T</div>
+          <div>Q</div>
+          <div>Q</div>
+          <div>S</div>
+          <div>S</div>
         </div>
         <div class="calendar-grid"></div>
       </div>
-      <div class="Form hidden">
-        <form action="/agendar" method="post" class="appointment-form">
-          <h2 class="title">Novo Agendamento</h2>
-          <div class="form-group time-group">
-            <div class="time-field">
-              <label for="start-time">Horário de início:</label>
-              <input type="time" id="start-time" name="start_time" required>
-            </div>
-            <div class="time-field">
-              <label for="end-time">Horário de fim:</label>
-              <input type="time" id="end-time" name="end_time" required>
-            </div>
-            <div class="time-field">
+      <div class="flash-messages"">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="flash-message {{ category }}">
+                {% if category == 'error' %}
+                  <div class="erro">{{ message }}</div>
+                {% else %}
+                  <div>{{ message }}</div>
+                {% endif %}
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+      </div>
+      <div class="appointment-form hidden" id="appointmentForm">
+        <h2 class="title">Novo Agendamento</h2>
+        <form method="post" action="/agendar">
               <label for="date">Data:</label>
-              <input type="date" id="date" name="date" required>
+              <input type="text" id="date" name="date" readonly>
+          <div class="time-group">
+            <div class="time-field">
+              <label for="startTime">Hora de Início:</label>
+              <input type="time" id="startTime" name="startTime">
+            </div>
+            <div class="time-field">
+              <label for="endTime">Hora de Término:</label>
+              <input type="time" id="endTime" name="endTime">
             </div>
           </div>
-          <div class="form-group building-location-group">
+          <div class="building-location-group">
             <div class="building-field">
               <label for="building">Prédio:</label>
-              <select id="building" name="building" required>
+              <select id="building" name="building">
                 {% for predio in predios %}
                   <option value="{{ predio }}">{{ predio }}</option>
                 {% endfor %}
               </select>
             </div>
             <div class="location-field">
-              <label for="location">Laboratório / Sala:</label>
+              <label for="location">Sala / Laboratório:</label>
               <select id="location" name="location" required>
                 {% for lab in labs %}
                   <option value="{{ lab }}">{{ lab }}</option>
@@ -164,30 +217,95 @@
     </section>
   </main>
   <div class="blur-overlay"></div>
-  <div class="popout">
-    <span class="close-btn" onclick="fecharPopout()">X</span>
+  <div class="popout" id="popout">
+    <span class="close-btn" onclick="closePopout()">X</span>
     <p>Gostaria de cancelar o agendamento?</p>
     <div class="buttons">
-      <button class="btn-sim" onclick="confirmarSim()">Sim!</button>
-      <button class="btn-nao" onclick="fecharPopout()">Não!</button>
+      <button class="btn-sim" onclick="confirmRemove()">Sim!</button>
+      <button class="btn-nao" onclick="closePopout()">Não!</button>
     </div>
   </div>
   <script>
-    let agendamentoIdParaExcluir = null;
+    let currentMonth = new Date().getMonth();
+    let currentYear = new Date().getFullYear();
 
-    function confirmarExclusao(agendamentoId) {
-      agendamentoIdParaExcluir = agendamentoId;
-      document.querySelector('.popout').style.display = 'block';
-      document.querySelector('.blur-overlay').style.display = 'block';
+    document.addEventListener("DOMContentLoaded", function() {
+      updateCalendar();
+    });
+
+    function updateCalendar() {
+      const monthNames = [
+        "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+        "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+      ];
+      const currentMonthElement = document.getElementById("currentMonth");
+      const calendarGrid = document.querySelector(".calendar-grid");
+      calendarGrid.innerHTML = ""; // Limpar o calendário anterior
+
+      currentMonthElement.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+
+      const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
+      const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+      for (let i = 0; i < firstDayOfMonth; i++) {
+        const emptyCell = document.createElement("div");
+        calendarGrid.appendChild(emptyCell);
+      }
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dayCell = document.createElement("div");
+        dayCell.className = "day-cell";
+        dayCell.textContent = day;
+        dayCell.onclick = () => openAppointmentForm(day);
+        calendarGrid.appendChild(dayCell);
+      }
     }
 
-    function fecharPopout() {
-      agendamentoIdParaExcluir = null;
-      document.querySelector('.popout').style.display = 'none';
+    function changeMonth(delta) {
+      currentMonth += delta;
+      if (currentMonth < 0) {
+        currentMonth = 11;
+        currentYear--;
+      } else if (currentMonth > 11) {
+        currentMonth = 0;
+        currentYear++;
+      }
+      updateCalendar();
+    }
+
+    function openAppointmentForm(day) {
+      const appointmentForm = document.getElementById("appointmentForm");
+      const dateInput = document.getElementById("date");
+      const monthNames = [
+        "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+        "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+      ];
+
+      dateInput.value = `${day} de ${monthNames[currentMonth]} de ${currentYear}`;
+      appointmentForm.classList.remove("hidden");
+    }
+
+    function saveAppointment() {
+      const appointmentForm = document.getElementById("appointmentForm");
+      appointmentForm.classList.add("hidden");
+      alert("Agendamento salvo!");
+      // Adicionar lógica para salvar o agendamento
+    }
+
+    function confirmarExclusao(agendamentoId) {
+      const popout = document.getElementById("popout");
+      popout.style.display = "block";
+      document.querySelector('.blur-overlay').style.display = 'block';
+      agendamentoIdParaExcluir = agendamentoId;
+    }
+
+    function closePopout() {
+      const popout = document.getElementById("popout");
+      popout.style.display = "none";
       document.querySelector('.blur-overlay').style.display = 'none';
     }
 
-    function confirmarSim() {
+    function confirmRemove() {
       if (agendamentoIdParaExcluir) {
         document.getElementById(`form-${agendamentoIdParaExcluir}`).submit();
       }

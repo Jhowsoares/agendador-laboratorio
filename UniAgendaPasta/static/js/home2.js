@@ -86,4 +86,20 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 // console.log(calendario.item(0))
+function openAppointmentForm(day) {
+  const appointmentForm = document.getElementById("appointmentForm");
+  const dateInput = document.getElementById("date");
+  const monthNames = [
+    "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+    "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+  ];
+
+  if (day) {
+    dateInput.value = `${day} de ${monthNames[currentMonth]} de ${currentYear}`;
+  } else {
+    dateInput.value = "Escolha um dia no calendário.";
+  }
+
+  appointmentForm.classList.remove("hidden");
+}
 

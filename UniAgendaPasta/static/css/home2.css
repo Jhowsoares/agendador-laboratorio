@@ -21,10 +21,9 @@ header {
     position: absolute;
     top: 0;
     align-items: center;
-    padding-top:10px;
+    padding-top: 10px;
     padding-bottom: 10px;
 }
-
 
 main {
     flex: 1;
@@ -68,7 +67,6 @@ h1 {
 .logout-btn:hover {
     color: #a7acb0;
 }
-/* Informações para novo Agendamento */
 
 /* Calendário */
 .calendar {
@@ -127,6 +125,7 @@ span {
     border: 1px solid #ddd;
     cursor: pointer;
     transition: .5s;
+    border-radius: 10x; /* Reduzindo a curvatura dos cantos */
 }
 
 .day-cell:hover {
@@ -143,6 +142,37 @@ span {
     color: #333;
 }
 
+/* Estilos mensagem de erro */
+.flash-messages {
+    position: relative;
+    width: 100%;
+    height: 60px; /* Exemplo de altura fixa */
+    background-color: none; /* Exemplo de cor de fundo */
+    display: flex;
+    align-items: center; /* Centraliza verticalmente */
+    justify-content: center; /* Centraliza horizontalmente */
+    padding-bottom: 0px;
+}
+
+.success, .error {
+    /* Estilos das mensagens */
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    max-width: 80%; /* Largura máxima das mensagens */
+}
+
+.success {
+    color: green;
+    background-color: lightgreen;
+}
+
+.error {
+    color: red;
+    background-color: #FFBABA;
+}
+
 /* Estilos do formulário */
 .appointment-form {
     background-color: #fff;
@@ -153,11 +183,10 @@ span {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s;
     max-width: 700px;
-    margin: 20px auto;
+    margin: 0px auto;
 }
-
 .appointment-form:hover,
- .container:hover {
+.container:hover {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
@@ -169,7 +198,17 @@ span {
     color: #333;
     text-align: center;
 }
-
+.appointment-form input#date {
+    width: 97%;
+    padding: 10px;
+    margin-bottom: 10px;
+    margin-right: 20px; /* Espaçamento à direita do campo de data */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    text-align: center;
+    border-radius: 50px;
+}
 .appointment-form input,
 .appointment-form select {
     width: 100%;
@@ -193,6 +232,7 @@ span {
     display: flex;
     gap: 45px; /* Adiciona espaçamento entre os campos */
 }
+
 
 .time-field,
 .building-field,
@@ -277,7 +317,7 @@ span {
 .details {
     display: flex;
     align-items: center;
-    gap: 15px; /* Espaço entre elementos */
+    gap: 15px;
 }
 
 .room {
@@ -291,7 +331,7 @@ span {
 .cancel-btn {
     background-color: #032859;
     color: #fff;
-    padding: 15px 25px; /* Ajustando o padding para um tamanho consistente */
+    padding: 15px 25px;
     border: none;
     border-radius: 50px;
     cursor: pointer;
@@ -315,4 +355,58 @@ span {
     border-radius: 50px;
 }
 
+.hidden {
+    display: none;
+}
 
+.blur-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(5px);
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: none;
+}
+
+.popout {
+    background-color: #F2F2F2;
+    border: 3px solid black;
+    border-radius: 50px;
+    padding: 50px;
+    text-align: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 25px;
+    display: none;
+    z-index: 1000;
+}
+
+.close-btn {
+    position: absolute;
+    font-size: 15px;
+    top: 16px;
+    right: 26px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #1BA657;
+    color: #F2F2F2;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.buttons {
+    margin-top: 20px;
+}
+
+.btn-sim,
+.btn-nao {
+    cursor: pointer;
+    width: 100px
