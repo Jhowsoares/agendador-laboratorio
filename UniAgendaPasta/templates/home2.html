@@ -65,7 +65,12 @@
     }
     .btn-sim:hover,
     .btn-nao:hover {
-      padding: 12px;
+      transform: translateY(2px);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    .btn-sim:active,
+    .btn-nao:active {
+      transform: translateY(0);
+      box-shadow: none;
     }
     .close-btn:hover {
       padding: 1px;
