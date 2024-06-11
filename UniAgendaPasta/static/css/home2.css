@@ -349,6 +349,7 @@ span {
 }
 
 .cancel-btn:hover {
+    padding: 15px 28px;
     background-color: #084378;
     transition: 0.3s;
 }
