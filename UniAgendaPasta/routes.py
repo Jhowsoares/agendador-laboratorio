@@ -66,31 +66,38 @@ def agendar():
         predio = request.form.get('building')
         laboratorio = request.form.get('location')
 
-        # Separar a data fornecida em dia, mês e ano
         partes_data = data_str.split(' de ')
         dia = partes_data[0]
         mes = partes_data[1]
         ano = partes_data[2]
 
-        # Converter o mês para número usando a lista auxiliar
         mes_numero = meses_para_numero[mes]
-
-        # Formatando a data como 'ano-mês-dia'
         data_formatada = f'{ano}-{mes_numero}-{dia}'
-
-        # Converter a data formatada para um objeto datetime
         data = datetime.strptime(data_formatada, '%Y-%m-%d')
 
-        # Construir os objetos datetime para hora de início e fim
         hora_inicio = datetime.strptime(hora_inicio_str, '%H:%M').time()
         hora_fim = datetime.strptime(hora_fim_str, '%H:%M').time()
 
-        # Criar o objeto Agendamento com os dados convertidos
-        novo_agendamento = Agendamento(data=data, hora_inicio=datetime.strptime(hora_inicio_str, '%H:%M'),
-                                       hora_fim=datetime.strptime(hora_fim_str, '%H:%M'), predio=predio,
-                                       laboratorio=laboratorio, id_usuario=user.id)
+        # Verificar se há conflitos de horário
+        agendamentos_dia = Agendamento.query.filter_by(data=data.date()).all()
+        for agendamento in agendamentos_dia:
+            agendamento_inicio = datetime.combine(data, agendamento.hora_inicio.time())
+            agendamento_fim = datetime.combine(data, agendamento.hora_fim.time())
+            novo_inicio = datetime.combine(data, hora_inicio)
+            novo_fim = datetime.combine(data, hora_fim)
+            if novo_inicio < agendamento_fim and novo_fim > agendamento_inicio:
+                flash('O horário selecionado está indisponível.', 'error')
+                return redirect('/')
 
-        # Adicionar o novo agendamento ao banco de dados
+        # Se não houver conflitos, prosseguir com o agendamento
+        novo_agendamento = Agendamento(
+            data=data,
+            hora_inicio=datetime.combine(data, hora_inicio),
+            hora_fim=datetime.combine(data, hora_fim),
+            predio=predio,
+            laboratorio=laboratorio,
+            id_usuario=user.id
+        )
         db.session.add(novo_agendamento)
         db.session.commit()
 
