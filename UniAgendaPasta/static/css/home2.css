@@ -30,17 +30,6 @@ main {
     margin-top: 30px;
 }
 
-.container1 {
-    background-color: #1BA657;
-    max-width: 1000px;
-    margin: 0 auto;
-    text-align: center;
-    border-radius: 2%;
-    margin-top: 20px;
-    padding: .5%;
-    transition: 1s;
-}
-
 .container {
     background-color: #fff;
     max-width: 1000px;
@@ -291,6 +280,17 @@ span {
     text-align: center;
 }
 
+.container1 {
+    background-color: #1BA657;
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+    border-radius: 2%;
+    margin-top: 20px;
+    padding: .5%;
+    transition: 1s;
+}
+
 .agendamentos {
     display: flex;
     flex-direction: column;
@@ -307,41 +307,60 @@ span {
     background-color: #fff;
     margin-bottom: 10px;
     border-radius: 50px;
+    gap: 10px; /* Espaçamento entre os elementos */
 }
 
 .agendamento h3 {
     font-size: 18px;
-    margin: 0;
+    margin: -80px;
+    flex: 1; /* Permite que o título ocupe espaço disponível */
+    text-align: center; /* Centraliza o texto */
 }
 
 .details {
     display: flex;
     align-items: center;
     gap: 15px;
+    flex: 2; /* Permite que os detalhes ocupem espaço disponível */
+    justify-content: space-around; /* Espaça os elementos uniformemente */
+    white-space: nowrap; /* Impede quebra de linha dentro do .details */
 }
 
-.room {
-    margin-right: 20px;
+.details span {
+    flex: 1; /* Distribui uniformemente o espaço entre os spans */
+    text-align: center; /* Centraliza o texto dos spans */
+    white-space: nowrap; /* Impede quebra de linha dentro dos spans */
 }
 
+.room,
 .date {
-    margin-right: 20px;
+    margin-right: 0; /* Removendo margem direita para espaçamento consistente */
 }
 
 .cancel-btn {
     background-color: #032859;
     color: #fff;
-    padding: 15px 25px;
+    padding: 12px 25px;
     border: none;
     border-radius: 50px;
     cursor: pointer;
+    flex-shrink: 0; /* Impede que o botão encolha */
+    text-align: center;
 }
 
 .cancel-btn:hover {
     background-color: #084378;
-    margin: 2px;
     transition: 0.3s;
 }
+
+.agendavazia {
+    color: #fff;
+    font-size: 20px;
+    margin-top: 20px;
+    font-weight: bold;
+    padding: 50px;
+}
+
 
 /* Botão de Novo Agendamento */
 .new-appointment-btn {

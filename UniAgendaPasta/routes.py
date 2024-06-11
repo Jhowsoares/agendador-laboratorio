@@ -113,7 +113,7 @@ def excluir_agendamento(agendamento_id):
     if agendamento.id_usuario == user.id:
         db.session.delete(agendamento)
         db.session.commit()
-        flash('Agendamento excluído com sucesso', 'success')
+        flash('Agendamento excluído com sucesso!', 'success')
         return redirect(url_for('homePage'))
     else:
         abort(403)

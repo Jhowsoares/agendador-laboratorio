@@ -139,14 +139,14 @@
             {% endfor %}
           </div>
         {% else %}
-          <p>Agenda vazia</p>
+          <p class="agendavazia">Voce não possui nenhum agendamento.</p>
         {% endif %}
         <button type="button" class="new-appointment-btn" onclick="openAppointmentForm()">Novo Agendamento</button>
       </div>
     </section>
     <section class="calendar">
       <div class="container">
-        <h2>Dias disponiveis:</h2>
+        <h2>Selecione uma data:</h2>
         <div class="calendar-nav">
           <button class="prev-month" onclick="changeMonth(-1)">&#10094;</button>
           <div class="current-month" id="currentMonth">Junho 2024</div>
