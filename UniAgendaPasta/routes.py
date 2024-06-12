@@ -2,9 +2,7 @@ from flask import render_template, flash, redirect, url_for, request, session, a
 from UniAgendaPasta import app, bcrypt
 from UniAgendaPasta.models import User, predioslista, labslista, Agendamento
 from UniAgendaPasta import db
-from UniAgendaPasta.forms import FormLogin, FormCriarConta
 from datetime import datetime
-from flask_login import current_user, login_required
 
 # Lista auxiliar para mapear nomes dos meses para números
 meses_para_numero = {
