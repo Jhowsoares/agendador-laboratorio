@@ -83,7 +83,12 @@ def agendar():
             agendamento_fim = datetime.combine(data, agendamento.hora_fim.time())
             novo_inicio = datetime.combine(data, hora_inicio)
             novo_fim = datetime.combine(data, hora_fim)
-            if novo_inicio < agendamento_fim and novo_fim > agendamento_inicio:
+            # if novo_inicio < agendamento_fim and novo_fim > agendamento_inicio:
+            #     flash('O horário selecionado está indisponível.', 'error')
+            #     return redirect('/') 
+
+            # falai guys fiz essa parte do codigo aqui e eu esplico em sala , ainda tem coisa pra fazeer
+            if novo_inicio >= agendamento_inicio and novo_inicio <= agendamento_fim or novo_fim >= agendamento_inicio and novo_fim <= agendamento_fim:
                 flash('O horário selecionado está indisponível.', 'error')
                 return redirect('/')
 
