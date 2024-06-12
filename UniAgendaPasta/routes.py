@@ -88,9 +88,11 @@ def agendar():
             #     return redirect('/') 
 
             # falai guys fiz essa parte do codigo aqui e eu esplico em sala , ainda tem coisa pra fazeer
-            if novo_inicio >= agendamento_inicio and novo_inicio <= agendamento_fim or novo_fim >= agendamento_inicio and novo_fim <= agendamento_fim:
-                flash('O horário selecionado está indisponível.', 'error')
-                return redirect('/')
+            if agendamento.predio == predio:
+                if agendamento.laboratorio == laboratorio:
+                    if novo_inicio >= agendamento_inicio and novo_inicio <= agendamento_fim or novo_fim >= agendamento_inicio and novo_fim <= agendamento_fim:
+                        flash('O horário selecionado está indisponível.', 'error')
+                        return redirect('/')
 
         # Se não houver conflitos, prosseguir com o agendamento
         novo_agendamento = Agendamento(
