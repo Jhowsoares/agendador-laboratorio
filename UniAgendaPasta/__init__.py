@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'DonaFlorinda_AaaiChavinho_--save_foxtrot(e sim essa senha é assim para não acertarem)'
 
-if  os.getenv("DATABASE_URL"):
+if os.getenv("DATABASE_URL"):
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
 else:
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///uniagenda.db'

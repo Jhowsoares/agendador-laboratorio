@@ -430,3 +430,121 @@ span {
 .btn-nao {
     cursor: pointer;
     width: 100px
+}
+
+/* Responsividade */
+
+@media (max-width: 1475px) {
+ .new-appointment-btn {
+    font-size: 25px;
+    padding: 15px;
+  }
+
+ .details span {
+    display: flex;
+    flex-direction: column; /* Faz com que os spans sejam empilhados verticalmente */
+  }
+
+ .cancel-btn {
+    display: flex;
+    margin-top: -1px; /* Espaço acima do botão para separação */
+    align-self: center; /* Alinha o botão ao centro */
+    width: auto; /* Mantém o tamanho natural do botão */
+    text-align: center; /* Centraliza o texto dentro do botão */
+  }
+
+ .agendamento h3 {
+    display: block; /* Garante que o h3 seja exibido em uma nova linha */
+    margin-bottom: -30px; /* Adiciona um espaço abaixo do h3 */
+  }
+
+ .agendamento {
+    padding-top: 85px;
+    padding-bottom: 0px;
+    margin: 5px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centraliza verticalmente */
+    align-items: center; /* Centraliza horizontalmente */
+    overflow-wrap: break-word; /* Evita que o título saia do container */
+  }
+}
+
+@media (max-width: 1050px) {
+ .agendamento {
+    flex-direction: column; /* Coloca os itens em uma coluna */
+    align-items: center; /* Alinha itens ao centro */
+    padding-bottom: 0px;
+    margin: 5px;
+  }
+
+ .imageuser {
+    width: 200px;
+    padding-bottom: 20px;
+  }
+
+ .agendamento h3 {
+    padding-bottom: 0px;
+    font-size: 14px;
+    margin: 0 0 10px 0; /* Margin para separar o título dos outros elementos */
+    width: 100%; /* Ocupar a largura total */
+    text-align: center; /* Alinhar o texto ao centro */
+    margin-top: -70px;
+  }
+
+ .details {
+    display: flex; /* Exibe detalhes em linha */
+    justify-content: center; /* Centraliza detalhes */
+    width: 100%; /* Ocupar a largura total */
+    margin-bottom: 10px; /* Margin para separar dos outros elementos */
+    flex-direction: column;
+    padding: 15px;
+    padding-top: 0px;
+  }
+
+ .details span {
+    text-align: center; /* Alinhar o texto ao centro */
+    margin: 0 5px; /* Margin para separar os spans */
+  }
+
+ .user-box {
+    padding: 0px;
+  }
+
+ .container {
+    padding: 15px;
+  }
+
+ .user-info {
+    padding: 15px;
+  }
+
+ .agenda {
+    padding: 0px;
+  }
+
+ .username {
+    margin-bottom: -10px;
+    font-size: 30px;
+  }
+
+ .new-appointment-btn {
+    padding: 10px;
+    font-size: 20px;
+  }
+
+ .cancel-btn {
+    margin: -10px;
+    margin-bottom: -15px;
+  }
+
+ .calendar {
+    margin-left: -20px;
+  }
+}
+
+@media (max-width: 630px) {
+  /* Regras para dispositivos com largura máxima de 630px */
+}
+
