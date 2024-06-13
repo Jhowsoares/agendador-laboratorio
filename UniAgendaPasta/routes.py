@@ -4,6 +4,7 @@ from UniAgendaPasta.models import User, predioslista, labslista, Agendamento
 from UniAgendaPasta import db
 from datetime import datetime
 
+
 # Lista auxiliar para mapear nomes dos meses para números
 meses_para_numero = {
     'Janeiro': '01',
@@ -78,6 +79,19 @@ def agendar():
         hora_inicio = datetime.strptime(hora_inicio_str, '%H:%M').time()
         hora_fim = datetime.strptime(hora_fim_str, '%H:%M').time()
 
+        data_agr = datetime.now()
+        hoje     = datetime.strptime(f'{data_agr.year}-{data_agr.month}-{data_agr.day}', '%Y-%m-%d')
+        if data < hoje:
+            print('fockdeu')
+            # raise Exception("Você deve fazer agendamentos para hoje ou dias que virão")
+            # flash('Você não pode agendar dias que passaram! (bixo burro da miserá)')
+            raise Exception("Você não pode agendar dias que passaram! (bixo burro da miserá)")
+        if hora_inicio > hora_fim:
+            print(hora_inicio)
+            print(hora_fim)
+            # flash('O horario final deve ser maior do que o Horario de inicio')
+            raise Exception("O horario final deve ser maior do que o Horario de inicio")
+
         # Verificar se há conflitos de horário
         agendamentos_dia = Agendamento.query.filter_by(data=data.date()).all()
         for agendamento in agendamentos_dia:
@@ -111,7 +125,7 @@ def agendar():
         flash('Agendamento realizado com sucesso!', 'success')
     except Exception as e:
         print(f"Erro ao agendar: {e}")
-        flash('Erro ao agendar. Por favor, verifique os dados inseridos.', 'error')
+        flash(f'{e}', 'error')
 
     return redirect('/')
 
