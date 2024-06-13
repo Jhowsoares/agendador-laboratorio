@@ -38,8 +38,10 @@ def homePage():
                 agendamentos = buscar_agendamentos_usuario(user.id)
             else:
                 agendamentos = []
-
-            return render_template('home2.html', session=user.nome, labs=labslista, predios=predioslista, agendamentos=agendamentos)
+            if session['modo'] != 0:
+                return render_template('home2.html', session=user.nome, labs=labslista, predios=predioslista, agendamentos=agendamentos)
+            else:
+                return render_template('home_admim.html' , session=user.nome) 
         except Exception as e:
             print(e)
             return render_template('home2.html', session=session['nome'], labs=labslista, predios=predioslista, agendamentos=[])
@@ -146,11 +148,13 @@ def logar():
 
         user = User.query.filter_by(email=email).first()
         if user and user.checar_Senha(senha):
+            session['modo'] = user.modo
             session['nome'] = user.nome
             session['email'] = user.email
             session['senha'] = user.senha
             return redirect('/')
         else:
+            flash('senha errada' , 'erro')
             return redirect('/login')
     except Exception as e:
         print(e)
@@ -166,7 +170,7 @@ def cadastrar(url_for=url_for):
         nome = request.form.get('nome')
         email = request.form.get('email')
         senha = request.form.get('senha')
-        novo_user = User(nome, email, senha)
+        novo_user = User(1 , nome, email, senha)
         db.session.add(novo_user)
         db.session.commit()
     except Exception as e:

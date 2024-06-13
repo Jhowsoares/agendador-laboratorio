@@ -3,14 +3,16 @@ from UniAgendaPasta import db
 from UniAgendaPasta import bcrypt
 
 class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    nome = db.Column(db.String(100), nullable=False)
-    email = db.Column(db.String(100), nullable=False, unique=True)
-    senha = db.Column(db.String(100), nullable=False)
+    id           = db.Column(db.Integer, primary_key=True)
+    modo         = db.Column(db.Integer, nullable=False)
+    nome         = db.Column(db.String(100), nullable=False)
+    email        = db.Column(db.String(100), nullable=False, unique=True)
+    senha        = db.Column(db.String(100), nullable=False)
     agendamentos = db.relationship('Agendamento', backref='autor', lazy=True)
 
-    def __init__(self, nome, email, senha) -> None:
-        self.nome = nome
+    def __init__(self, modo , nome, email, senha) -> None:
+        self.modo  = modo
+        self.nome  = nome
         self.email = email
         self.senha = bcrypt.generate_password_hash(senha).decode('utf-8')
 
