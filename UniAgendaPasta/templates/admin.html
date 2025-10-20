@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Agendamentos</title>
+  <link rel="stylesheet" href="/static/css/admin.css">
+  <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
+</head>
+<body>
+  <header>
+    <img style="height: 50px; padding-left: 10px;" src="/static/Group1.png" alt="logo">
+    <a class="logout-btn" style="text-decoration: none;" href="/logout">Sair</a>
+  </header>
+  <main>
+    <h1>Todos os Agendamentos</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>Dados do Agendamento</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for agendamento, user in agendamentos %}
+          <tr>
+            <td>{{ user.nome }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+              Prédio: {{ agendamento.predio }}<br>
+              Local: {{ agendamento.laboratorio }}<br>
+              Data: {{ agendamento.data.strftime('%d/%m/%Y') }}<br>
+              Horário: {{ agendamento.hora_inicio.strftime('%H:%M') }} - {{ agendamento.hora_fim.strftime('%H:%M') }}
+            </td>
+            <td>
+              <form id="form-{{ agendamento.id }}" method="post" action="{{ url_for('excluir_agendamento_admin', agendamento_id=agendamento.id) }}">
+                <button type="button" class="cancel-btn" onclick="confirmarExclusao({{ agendamento.id }})">Cancelar</button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </main>
+  <div class="blur-overlay"></div>
+  <div class="popout" id="popout">
+    <span class="close-btn" onclick="closePopout()">X</span>
+    <p>Gostaria de cancelar o agendamento?</p>
+    <div class="buttons">
+      <button class="btn-sim" onclick="confirmRemove()">Sim!</button>
+      <button class="btn-nao" onclick="closePopout()">Não!</button>
+    </div>
+  </div>
+  <script>
+    let agendamentoIdParaExcluir;
+
+    function confirmarExclusao(agendamentoId) {
+      const popout = document.getElementById("popout");
+      popout.style.display = "block";
+      document.querySelector('.blur-overlay').style.display = 'block';
+      agendamentoIdParaExcluir = agendamentoId;
+    }
+
+    function closePopout() {
+      const popout = document.getElementById("popout");
+      popout.style.display = "none";
+      document.querySelector('.blur-overlay').style.display = 'none';
+    }
+
+    function confirmRemove() {
+      if (agendamentoIdParaExcluir) {
+        document.getElementById(`form-${agendamentoIdParaExcluir}`).submit();
+      }
+    }
+  </script>
+</body>
+</html>
