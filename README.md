@@ -61,4 +61,5 @@ Este sistema foi desenvolvido para fins acadêmicos, sendo um protótipo de sist
 ---
 
 🌐 Versão de apresentação
-Você pode visualizar uma versão demonstrativa [aqui](https://agendador-laboratorio.onrender.com/)
+
+- Você pode visualizar uma versão demonstrativa [aqui](https://agendador-laboratorio.onrender.com/)
