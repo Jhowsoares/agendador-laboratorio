@@ -3,7 +3,7 @@
 Este projeto foi desenvolvido em grupo com o objetivo de facilitar a organização de salas de aula na universidade **UniFecaf**, oferecendo aos professores uma plataforma intuitiva para gerenciar reservas e horários de forma eficiente.
 
 ## 🔍 Visão Geral
-O sistema foi construído com Flask e tem como foco a gestão de espaços acadêmicos, permitindo que professores realizem agendamentos, visualizem suas reservas e acompanhem a disponibilidade das salas em tempo real.
+O sistema é um protótipo construído com Flask e tem como foco a gestão de espaços acadêmicos, permitindo que professores realizem agendamentos, visualizem suas reservas e acompanhem a disponibilidade das salas em tempo real.
 
 ## ✨ Funcionalidades
 - ✅ **Autenticação segura**
@@ -44,4 +44,4 @@ O sistema foi construído com Flask e tem como foco a gestão de espaços acadê
 ![historico](https://link-ficticio.com/imagens/historico.png)
 
 ## 📚 Sobre o Projeto
-Este sistema foi desenvolvido para fins acadêmicos, com foco na organização interna da universidade. A aplicação busca oferecer uma experiência simples, rápida e funcional para os docentes, promovendo melhor aproveitamento dos espaços físicos disponíveis.
+Este sistema foi desenvolvido para fins acadêmicos, sendo um protótipo de sistema para auxiliar na organização interna da universidade. A aplicação busca oferecer uma experiência simples, rápida e funcional para os docentes, promovendo melhor aproveitamento dos espaços físicos disponíveis.
