@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatórios - UniAgenda</title>
+    <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/static/css/relatorios.css">
+</head>
+<body>
+    <header>
+        <img style="height: 50px;" src="/static/images/Group1.png" alt="logo">
+        <div>
+            <a href="/admin" class="btn" style="background: #6c757d;">Voltar ao Admin</a>
+            <a href="/dashboard" class="btn" style="background: #6c757d;">Dashboard</a>
+            <a href="/logout" class="btn" style="background: #dc3545;">Sair</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>Relatórios do Sistema</h1>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-number">{{ total_usuarios }}</span>
+                <span class="stat-label">Total de Usuários</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">{{ total_agendamentos }}</span>
+                <span class="stat-label">Total de Agendamentos</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">{{ agendamentos_hoje }}</span>
+                <span class="stat-label">Agendamentos Hoje</span>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <h2>Salas Mais Populares</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sala/Laboratório</th>
+                        <th>Total de Agendamentos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for sala, total in salas_populares %}
+                    <tr>
+                        <td>{{ sala }}</td>
+                        <td>{{ total }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="table-container">
+            <h2>Usuários Mais Ativos</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Usuário</th>
+                        <th>Total de Agendamentos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for usuario, total in usuarios_ativos %}
+                    <tr>
+                        <td>{{ usuario }}</td>
+                        <td>{{ total }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

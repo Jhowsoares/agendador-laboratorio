@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UniAgenda - Seus Agendamentos</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/static/css/dashboard.css">
+</head>
+
+<body>
+  <header>
+    <div class="logo-container">
+      <img class="logo" src="/static/images/Group1.png" alt="UniAgenda">
+    </div>
+    <div class="header-actions">
+      {% if current_user.is_admin() %}
+      <a href="/admin" class="btn btn-secondary">
+        <span class="material-icons-round icon-md">admin_panel_settings</span>Admin
+      </a>
+      {% endif %}
+      <a href="/perfil" class="btn btn-secondary">
+        <span class="material-icons-round icon-md">person</span>Perfil
+      </a>
+      <a href="/logout" class="btn btn-danger">
+        <span class="material-icons-round icon-md">logout</span>Sair
+      </a>
+    </div>
+  </header>
+
+  <!-- Flash Messages -->
+  <div class="flash-messages">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="flash-message flash-{{ category }}">
+      {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+  </div>
+
+  <!-- Main Container -->
+  <div class="main-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="user-card">
+        <img src="/static/images/userfotopadrao.png" alt="Avatar" class="user-avatar">
+        <h2 class="user-name">{{ current_user.nome }}</h2>
+        <p class="user-role">
+          {% if current_user.is_admin() %}
+          <i class="fas fa-shield-alt"></i> Administrador
+          {% else %}
+          <i class="fas fa-user"></i> Usuário
+          {% endif %}
+        </p>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="material-icons-round icon-2xl">today</span>
+          <span class="stat-number">{{ estatisticas.hoje }}</span>
+          <span class="stat-label">Hoje</span>
+        </div>
+        <div class="stat-card">
+          <span class="material-icons-round icon-2xl">analytics</span>
+          <span class="stat-number">{{ estatisticas.semana }}</span>
+          <span class="stat-label">Esta Semana</span>
+        </div>
+        <div class="stat-card">
+          <span class="material-icons-round icon-2xl">emoji_events</span>
+          <span class="stat-number">{{ estatisticas.total_agendamentos }}</span>
+          <span class="stat-label">Total</span>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" onclick="openModal()" style="width: 100%;">
+        <span class="material-icons-round icon-md">add</span> Novo Agendamento
+      </button>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Calendar Section -->
+      <section class="calendar-section">
+        <div class="section-header">
+          <h2 class="section-title">Calendário</h2>
+        </div>
+        <div class="calendar-container">
+          <div class="calendar-nav">
+            <button class="nav-btn" onclick="changeMonth(-1)">
+              <span class="material-icons-round">chevron_left</span>
+            </button>
+            <div class="current-month" id="currentMonth">Junho 2024</div>
+            <button class="nav-btn" onclick="changeMonth(1)">
+              <span class="material-icons-round">chevron_right</span>
+            </button>
+          </div>
+          <div class="calendar-grid">
+            <div class="calendar-header">Dom</div>
+            <div class="calendar-header">Seg</div>
+            <div class="calendar-header">Ter</div>
+            <div class="calendar-header">Qua</div>
+            <div class="calendar-header">Qui</div>
+            <div class="calendar-header">Sex</div>
+            <div class="calendar-header">Sáb</div>
+            <!-- Dias serão inseridos via JavaScript -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Agendamentos Section -->
+      <section class="agendamentos-section">
+        <div class="section-header">
+          <h2 class="section-title">Seus Agendamentos</h2>
+        </div>
+
+        {% if agendamentos %}
+        <div class="agendamentos-list">
+          {% for agendamento in agendamentos %}
+          <div class="agendamento-card">
+            <div class="agendamento-info">
+              <h4>{{ agendamento.laboratorio }}</h4>
+              <div class="agendamento-details">
+                <span><span class="material-icons-round icon-sm">schedule</span> {{ agendamento.hora_inicio }} - {{ agendamento.hora_fim }}</span>
+                <span><span class="material-icons-round icon-sm">calendar_today</span> {{ agendamento.data.strftime('%d/%m/%Y') }}</span>
+                <span><span class="material-icons-round icon-sm">location_city</span> {{ agendamento.predio }}</span>
+              </div>
+            </div>
+            <div class="agendamento-actions">
+              <form id="form-{{ agendamento.id }}" method="post" action="/excluir_agendamento/{{ agendamento.id }}">
+                <button type="button" class="btn-cancel" onclick="confirmarExclusao({{ agendamento.id }})">
+                  <span class="material-icons-round icon-sm">close</span> Cancelar
+                </button>
+              </form>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+          <span class="material-icons-round icon-2xl">event_note</span>
+          <h3>Nenhum agendamento</h3>
+          <p>Você não possui agendamentos futuros.</p>
+          <button class="btn btn-primary" onclick="openModal()" style="margin-top: 1rem;">
+            <span class="material-icons-round icon-md">add</span> Fazer primeiro agendamento
+          </button>
+        </div>
+        {% endif %}
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal de Agendamento -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 style="color: var(--primary);">Novo Agendamento</h3>
+        <button class="modal-close" onclick="closeModal()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <form method="post" action="/agendar">
+        <div class="form-group">
+          <label class="form-label">Data Selecionada</label>
+          <input type="text" id="selectedDate" name="date" class="form-input" readonly>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Hora de Início</label>
+            <input type="time" id="startTime" name="startTime" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Hora de Término</label>
+            <input type="time" id="endTime" name="endTime" class="form-input" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Prédio</label>
+            <select id="building" name="building" class="form-select" required>
+              {% for predio in predios %}
+              <option value="{{ predio }}">{{ predio }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Sala/Laboratório</label>
+            <select id="location" name="location" class="form-select" required>
+              {% for lab in labs %}
+              <option value="{{ lab }}">{{ lab }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit">
+          <i class="fas fa-calendar-plus"></i> Confirmar Agendamento
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal de Confirmação de Exclusão -->
+  <div class="modal-overlay" id="confirmModal" style="display: none;">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 style="color: var(--danger);">Cancelar Agendamento</h3>
+        <button class="modal-close" onclick="closeConfirmModal()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <p style="margin-bottom: 2rem; text-align: center;">Tem certeza que deseja cancelar este agendamento?</p>
+      <div style="display: flex; gap: 1rem;">
+        <button class="btn-submit" onclick="closeConfirmModal()" style="background: var(--gray);">
+          <i class="fas fa-times"></i> Manter
+        </button>
+        <button class="btn-submit" onclick="confirmRemove()" style="background: var(--danger);">
+          <i class="fas fa-check"></i> Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentMonth = new Date().getMonth();
+    let currentYear = new Date().getFullYear();
+    let agendamentoIdParaExcluir;
+
+    // Calendar Functions
+    function updateCalendar() {
+      const monthNames = [
+        "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+        "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+      ];
+
+      const currentMonthElement = document.getElementById("currentMonth");
+      const calendarGrid = document.querySelector(".calendar-grid");
+
+      // Limpar células dos dias
+      const dayCells = document.querySelectorAll('.day-cell');
+      dayCells.forEach(cell => cell.remove());
+
+      currentMonthElement.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+
+      const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
+      const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+      const today = new Date();
+
+      // Adicionar células vazias para dias do mês anterior
+      for (let i = 0; i < firstDayOfMonth; i++) {
+        const emptyCell = document.createElement("div");
+        calendarGrid.appendChild(emptyCell);
+      }
+
+      // Adicionar células dos dias do mês atual
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dayCell = document.createElement("div");
+        dayCell.className = "day-cell";
+        dayCell.textContent = day;
+
+        // Destacar dia atual
+        if (day === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear()) {
+          dayCell.classList.add('today');
+        }
+
+        dayCell.onclick = () => selectDate(day);
+        calendarGrid.appendChild(dayCell);
+      }
+    }
+
+    function selectDate(day) {
+      const monthNames = [
+        "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+        "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+      ];
+
+      const dateInput = document.getElementById("selectedDate");
+      dateInput.value = `${day} de ${monthNames[currentMonth]} de ${currentYear}`;
+
+      openModal();
+    }
+
+    function changeMonth(delta) {
+      currentMonth += delta;
+      if (currentMonth < 0) {
+        currentMonth = 11;
+        currentYear--;
+      } else if (currentMonth > 11) {
+        currentMonth = 0;
+        currentYear++;
+      }
+      updateCalendar();
+    }
+
+    // Modal Functions
+    function openModal() {
+      document.getElementById('modalOverlay').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('modalOverlay').style.display = 'none';
+    }
+
+    function openConfirmModal() {
+      document.getElementById('confirmModal').style.display = 'flex';
+    }
+
+    function closeConfirmModal() {
+      document.getElementById('confirmModal').style.display = 'none';
+    }
+
+    function confirmarExclusao(agendamentoId) {
+      agendamentoIdParaExcluir = agendamentoId;
+      openConfirmModal();
+    }
+
+    function confirmRemove() {
+      if (agendamentoIdParaExcluir) {
+        document.getElementById(`form-${agendamentoIdParaExcluir}`).submit();
+      }
+    }
+
+    // Fechar modal ao clicar fora
+    document.getElementById('modalOverlay').addEventListener('click', function (e) {
+      if (e.target === this) {
+        closeModal();
+      }
+    });
+
+    document.getElementById('confirmModal').addEventListener('click', function (e) {
+      if (e.target === this) {
+        closeConfirmModal();
+      }
+    });
+
+    // Auto-close flash messages
+    setTimeout(() => {
+      const flashMessages = document.querySelectorAll('.flash-message');
+      flashMessages.forEach(msg => {
+        msg.style.animation = 'slideInRight 0.3s ease reverse';
+        setTimeout(() => msg.remove(), 300);
+      });
+    }, 5000);
+
+    // Inicializar calendário
+    document.addEventListener("DOMContentLoaded", function () {
+      updateCalendar();
+    });
+  </script>
+</body>
+
+</html>

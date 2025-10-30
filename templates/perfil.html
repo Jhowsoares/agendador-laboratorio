@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil - UniAgenda</title>
+    <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/static/css/perfil.css">
+</head>
+<body>
+    <header>
+        <img style="height: 50px;" src="/static/images/Group1.png" alt="logo">
+        <div>
+            <a href="/dashboard" class="btn" style="background: #6c757d; margin-right: 10px;">Voltar</a>
+            <a href="/logout" class="btn logout-btn">Sair</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="profile-header">
+            <img src="/static/images/{{ current_user.avatar }}" alt="Avatar" class="avatar">
+            <div class="profile-info">
+                <h1>{{ current_user.nome }}</h1>
+                <p><strong>Email:</strong> {{ current_user.email }}</p>
+                <p><strong>Tipo de conta:</strong> {% if current_user.is_admin() %}Administrador{% else %}Usuário Regular{% endif %}</p>
+                <p><strong>Membro desde:</strong> {{ current_user.data_criacao.strftime('%d/%m/%Y') }}</p>
+            </div>
+        </div>
+
+        <h2>Estatísticas</h2>
+        <div class="stats">
+            <div class="stat-card">
+                <span class="stat-number">{{ estatisticas.total_agendamentos }}</span>
+                <span class="stat-label">Total de Agendamentos</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">{{ estatisticas.hoje }}</span>
+                <span class="stat-label">Agendamentos Hoje</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">{{ estatisticas.semana }}</span>
+                <span class="stat-label">Agendamentos Esta Semana</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">{{ estatisticas.sala_mais_usada }}</span>
+                <span class="stat-label">Sala Mais Usada</span>
+            </div>
+        </div>
+
+        {% if current_user.is_admin() %}
+        <div style="margin-top: 30px; padding: 20px; background: #e7f3ff; border-radius: 8px;">
+            <h3>Painel Administrativo</h3>
+            <p>Você tem acesso às funcionalidades administrativas do sistema.</p>
+            <a href="/admin" class="btn">Painel Admin</a>
+            <a href="/admin/relatorios" class="btn" style="background: #28a745;">Relatórios</a>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

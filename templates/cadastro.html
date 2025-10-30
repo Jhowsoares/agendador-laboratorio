@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criando conta no UniAgenda</title>
+    <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/static/css/cadastro.css">
+</head>
+<body>
+    <header>
+        <div class="barra">
+            <img class='imagelogo' src="/static/images/Group1.png" alt="Logo UniAgenda">
+        </div>
+    </header>
+
+    <!-- Flash Messages -->
+    <div class="flash-messages">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <div class="container">
+        <div class="icon-calendar"></div>
+        <h1>Cadastro</h1>
+        <form action="/cadastro" method="post">
+            <div class="form-group">
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" name="nome" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="confirm-email">Confirmar Email:</label>
+                <input type="email" id="confirm-email" name="confirm-email" required>
+            </div>
+            <div class="form-group">
+                <label for="senha">Senha:</label>
+                <input type="password" id="senha" name="senha" required minlength="6">
+            </div>
+            <div class="form-group">
+                <label for="confirm-senha">Confirmar Senha:</label>
+                <input type="password" id="confirm-senha" name="confirm-senha" required minlength="6">
+            </div>
+            <br>
+            <button type="submit" class="btn-criar-conta">Criar conta</button>
+        </form>
+        <a href="/login">
+            <button class="btn-voltar">Voltar para Login</button>
+        </a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Agendamentos</title>
+  <link rel="stylesheet" href="/static/css/admin.css">
+  <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon">
+  
+</head>
+
+<body>
+  <header>
+    <img style="height: 50px; padding-left: 10px;" src="/static/images/Group1.png" alt="logo">
+    <div>
+      <a class="logout-btn" style="text-decoration: none; color: white;" href="/logout">Sair</a>
+      <a class="logout-btn" style="text-decoration: none; color: white; margin-left: 10px; background-color: #6c757d;" href="/dashboard">Voltar</a>
+    </div>
+  </header>
+
+  <!-- Flash Messages -->
+  <div class="flash-messages">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="{{ category }}">
+      {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+  </div>
+
+  <main>
+    <h1>Todos os Agendamentos</h1>
+    <div class="admin-stats">
+      <div class="admin-stat-card">
+        <span class="admin-stat-number">{{ total_usuarios }}</span>
+        <span class="admin-stat-label">Total de Usuários</span>
+      </div>
+      <div class="admin-stat-card">
+        <span class="admin-stat-number">{{ total_agendamentos }}</span>
+        <span class="admin-stat-label">Total de Agendamentos</span>
+      </div>
+      <div class="admin-stat-card">
+        <span class="admin-stat-number">{{ agendamentos_hoje }}</span>
+        <span class="admin-stat-label">Agendamentos Hoje</span>
+      </div>
+    </div>
+    {% if agendamentos %}
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>Dados do Agendamento</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for agendamento, user in agendamentos %}
+        <tr>
+          <td>{{ user.nome }}</td>
+          <td>{{ user.email }}</td>
+          <td>
+            Prédio: {{ agendamento.predio }}<br>
+            Local: {{ agendamento.laboratorio }}<br>
+            Data: {{ agendamento.data.strftime('%d/%m/%Y') }}<br>
+            Horário: {{ agendamento.hora_inicio }} - {{ agendamento.hora_fim }}
+          </td>
+          <td>
+            <form id="form-{{ agendamento.id }}" method="post" action="/admin/excluir_agendamento/{{ agendamento.id }}">
+              <button type="button" class="cancel-btn" onclick="confirmarExclusao({{ agendamento.id }})">Cancelar</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p>Não há agendamentos cadastrados.</p>
+    {% endif %}
+  </main>
+
+  <div class="blur-overlay"></div>
+  <div class="popout" id="popout">
+    <span class="close-btn" onclick="closePopout()">X</span>
+    <p>Gostaria de cancelar o agendamento?</p>
+    <div class="buttons">
+      <button class="btn-sim" onclick="confirmRemove()">Sim!</button>
+      <button class="btn-nao" onclick="closePopout()">Não!</button>
+    </div>
+  </div>
+
+  <script>
+    let agendamentoIdParaExcluir;
+
+    function confirmarExclusao(agendamentoId) {
+      const popout = document.getElementById("popout");
+      popout.style.display = "block";
+      document.querySelector('.blur-overlay').style.display = 'block';
+      agendamentoIdParaExcluir = agendamentoId;
+    }
+
+    function closePopout() {
+      const popout = document.getElementById("popout");
+      popout.style.display = "none";
+      document.querySelector('.blur-overlay').style.display = 'none';
+    }
+
+    function confirmRemove() {
+      if (agendamentoIdParaExcluir) {
+        document.getElementById(`form-${agendamentoIdParaExcluir}`).submit();
+      }
+    }
+  </script>
+</body>
+
+</html>

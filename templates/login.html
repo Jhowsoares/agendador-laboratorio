@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UniAgenda Login</title>
+  <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/static/css/login.css">
+</head>
+
+<body>
+  <header>
+    <div class="barra">
+      <img class='imagelogo' src="/static/images/Group1.png" alt="">
+    </div>
+    <div>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      {% for category, message in messages %}
+      <div class="flash-{{ category }}" style="background-color: {% if category == 'error' %}#f8d7da{% else %}#d4edda{% endif %}; 
+                       color: {% if category == 'error' %}#721c24{% else %}#155724{% endif %}; 
+                       padding: 10px; border-radius: 4px; margin: 10px;">
+        {{ message }}
+      </div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+    </div>
+  </header>
+
+  <!-- Flash Messages -->
+  <div class="flash-messages">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="{{ category }}">
+      {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+  </div>
+
+  <div class="login-container">
+    <div class="icon-calendar"></div>
+    <h1 style="text-align: center;">Login</h1>
+    <form action="/login" method="post">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Senha</label>
+        <input type="password" id="password" name="senha" required>
+      </div>
+      <button type='submit' class="btn-entrar">Entrar</button>
+      <a href="/cadastro" class="link-cadastrar">Cadastrar-se?</a>
+    </form>
+  </div>
+  <footer>
+    <p>UniFecaf</p>
+  </footer>
+</body>
+
+</html>
