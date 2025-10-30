@@ -45,3 +45,12 @@ O sistema é um protótipo construído com Flask e tem como foco a gestão de es
 
 ## 📚 Sobre o Projeto
 Este sistema foi desenvolvido para fins acadêmicos, sendo um protótipo de sistema para auxiliar na organização interna da universidade. A aplicação busca oferecer uma experiência simples, rápida e funcional para os docentes, promovendo melhor aproveitamento dos espaços físicos disponíveis.
+
+
+---
+
+## Resumo
+
+• Desenvolveu sistema para agendamento de laboratórios acadêmicos, organizando reservas, horários e disponibilidade de equipamentos.
+• Estruturou interface de consulta e cadastro com foco em eficiência e clareza visual.
+• Utilizou boas práticas de versionamento e documentação no GitHub.
